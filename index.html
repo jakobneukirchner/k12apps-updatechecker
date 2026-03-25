@@ -52,9 +52,9 @@
     .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;
       border-radius:999px;font-size:.8125rem;font-weight:500;margin-bottom:16px}
     .badge .material-icons{font-size:16px}
-    .badge.ok {background:var(--ok-container);  color:var(--on-ok-container)}
+    .badge.ok {background:var(--ok-container);     color:var(--on-ok-container)}
     .badge.upd{background:var(--primary-container);color:var(--on-primary-container)}
-    .badge.err{background:var(--error-container);color:var(--on-error-container)}
+    .badge.err{background:var(--error-container);  color:var(--on-error-container)}
     .vtable{width:100%;border-collapse:collapse;margin-bottom:16px}
     .vtable td{padding:8px 0;font-size:.9rem}
     .vtable td:first-child{color:var(--on-surface-variant);width:55%}
@@ -73,13 +73,16 @@
     .btn .material-icons{font-size:20px}
     .btn:hover{opacity:.85}
     .btn-filled{background:var(--primary);color:var(--on-primary);box-shadow:var(--md-el1)}
-    #dlBtn{display:none}
+    .btn-tonal{background:var(--secondary-container);color:var(--on-secondary-container)}
+    #dlBtn,#confirmBtn{display:none}
+    /* Anleitung */
     .install-steps{display:none;background:var(--warn-container);border-radius:16px;
-      padding:14px 16px;margin-top:4px}
-    .install-steps p{font-size:.8125rem;font-weight:600;color:var(--on-warn-container);
+      padding:14px 16px}
+    .install-steps .is-title{font-size:.8125rem;font-weight:600;color:var(--on-warn-container);
       margin-bottom:8px;display:flex;align-items:center;gap:6px}
     .install-steps ol{padding-left:18px;font-size:.8125rem;
-      color:var(--on-warn-container);line-height:1.7}
+      color:var(--on-warn-container);line-height:1.8;margin-bottom:12px}
+    /* Loading */
     .loading{display:flex;flex-direction:column;align-items:center;gap:16px;
       padding:32px 0;color:var(--on-surface-variant)}
     .spinner{width:36px;height:36px;border:3px solid var(--primary-container);
@@ -97,7 +100,7 @@
 <div class="card">
   <div class="card-header">
     <div class="icon-wrap" id="iconWrap">
-      <span class="material-icons" id="iconFallback">apps</span>
+      <span class="material-icons">apps</span>
     </div>
     <div class="hdr-text">
       <h1 id="appName">Update</h1>
@@ -115,18 +118,27 @@
       <p class="cl-label">Änderungen</p>
       <div class="cl-box" id="changelog"></div>
       <div class="btn-row">
+
+        <!-- Schritt 1: Download-Button – zeigt zuerst die Anleitung -->
         <button id="dlBtn" class="btn btn-filled">
           <span class="material-icons">download</span>Update installieren
         </button>
+
+        <!-- Schritt 2: Anleitung + Bestätigungs-Button -->
         <div class="install-steps" id="installSteps">
-          <p><span class="material-icons">info</span>So installierst du das Update:</p>
+          <p class="is-title"><span class="material-icons">info</span>Vor dem Download lesen:</p>
           <ol>
             <li>Download abwarten bis er fertig ist</li>
             <li>Auf die heruntergeladene Datei tippen</li>
             <li>Falls gefragt: „Unbekannte Quellen erlauben“ aktivieren</li>
             <li>Auf „Installieren“ tippen</li>
           </ol>
+          <!-- Bestätigungs-Button startet den echten Download -->
+          <button id="confirmBtn" class="btn btn-filled">
+            <span class="material-icons">download</span>Verstanden – jetzt herunterladen
+          </button>
         </div>
+
       </div>
     </div>
     <div id="errorBox" style="display:none">
@@ -157,7 +169,7 @@
   const appName=appKey.charAt(0).toUpperCase()+appKey.slice(1);
   document.getElementById('appName').textContent=appName;
 
-  // Logo: direkt mit hartem Pfad /apps/Hashi/logo.png laden
+  // Logo
   const logoImg=document.createElement('img');
   logoImg.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:16px;display:block;';
   logoImg.onload=()=>{
@@ -165,7 +177,6 @@
     w.innerHTML='';
     w.appendChild(logoImg);
   };
-  // Cache-Buster damit der Browser kein leeres Bild cached
   logoImg.src='/apps/'+appName+'/logo.png?v=1';
 
   function cmpVer(a,b){
@@ -178,7 +189,7 @@
     return 0;
   }
 
-  function startInstall(apkUrl,fileName){
+  function doDownload(apkUrl,fileName){
     const a=document.createElement('a');
     a.href=apkUrl;
     a.download=fileName;
@@ -186,7 +197,11 @@
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    document.getElementById('installSteps').style.display='block';
+    // Bestätigungs-Button nach Download deaktivieren
+    const cb=document.getElementById('confirmBtn');
+    cb.disabled=true;
+    cb.innerHTML='<span class="material-icons">check</span>Download gestartet';
+    cb.style.opacity='.6';
   }
 
   fetch('/apps/'+appName+'/versions.json')
@@ -204,10 +219,21 @@
       if(newer){
         badge.innerHTML='<span class="material-icons">system_update</span> Update verfügbar';
         badge.className='badge upd';
-        const dl=document.getElementById('dlBtn');
         const fn=appName+'-v'+latest+'.apk';
-        dl.style.display='flex';
-        dl.addEventListener('click',()=>startInstall(meta.apk,fn));
+        const dlBtn=document.getElementById('dlBtn');
+        const steps=document.getElementById('installSteps');
+        const confirmBtn=document.getElementById('confirmBtn');
+        dlBtn.style.display='flex';
+        // Klick auf "Update installieren" → Anleitung zeigen, Button verstecken
+        dlBtn.addEventListener('click',()=>{
+          dlBtn.style.display='none';
+          steps.style.display='block';
+          confirmBtn.style.display='flex';
+          // Zur Anleitung scrollen
+          steps.scrollIntoView({behavior:'smooth',block:'nearest'});
+        });
+        // Klick auf "Verstanden" → Download starten
+        confirmBtn.addEventListener('click',()=>doDownload(meta.apk,fn));
       }else{
         badge.innerHTML='<span class="material-icons">check_circle</span> Aktuell';
         badge.className='badge ok';
