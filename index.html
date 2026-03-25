@@ -8,115 +8,128 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     :root {
-      --md-sys-color-primary: #006A6A;
-      --md-sys-color-on-primary: #FFFFFF;
-      --md-sys-color-primary-container: #9CF1F0;
-      --md-sys-color-on-primary-container: #002020;
-      --md-sys-color-secondary-container: #CCE8E7;
-      --md-sys-color-on-secondary-container: #051F1F;
-      --md-sys-color-surface: #F4FBFA;
-      --md-sys-color-surface-container: #E8F2F1;
-      --md-sys-color-on-surface: #161D1D;
-      --md-sys-color-on-surface-variant: #3F4948;
-      --md-sys-color-outline: #6F7979;
-      --md-sys-color-error: #BA1A1A;
-      --md-sys-color-error-container: #FFDAD6;
-      --md-sys-color-on-error-container: #410002;
-      --md-sys-color-tertiary-container: #C4EAB1;
-      --md-sys-color-on-tertiary-container: #002204;
-      --md-elevation-1: 0 1px 2px rgba(0,0,0,.12), 0 1px 3px rgba(0,0,0,.08);
-      --md-elevation-2: 0 1px 2px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.08);
+      /* Hashi App Colors (Color.kt) */
+      --blue-700:    #1565C0;
+      --blue-500:    #1E88E5;
+      --blue-200:    #90CAF9;
+      --teal-600:    #00897B;
+      --teal-200:    #80CBC4;
+      --neutral-900: #1A1A2E;
+      --neutral-800: #16213E;
+      --neutral-100: #F5F5F5;
+      --error-red:   #D32F2F;
+
+      --primary:            var(--teal-600);
+      --on-primary:         #FFFFFF;
+      --primary-container:  var(--teal-200);
+      --on-primary-container: var(--neutral-900);
+      --secondary-container: var(--blue-200);
+      --on-secondary-container: var(--neutral-900);
+      --surface:            var(--neutral-100);
+      --surface-container:  #E8F4F3;
+      --on-surface:         var(--neutral-900);
+      --on-surface-variant: #455A64;
+      --error-container:    #FFCDD2;
+      --on-error-container: #B71C1C;
+      --ok-container:       #C8E6C9;
+      --on-ok-container:    #1B5E20;
+      --md-elevation-1: 0 1px 2px rgba(0,0,0,.14), 0 1px 3px rgba(0,0,0,.10);
+      --md-elevation-2: 0 2px 4px rgba(0,0,0,.14), 0 3px 8px rgba(0,0,0,.10);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--md-sys-color-surface);
-      color: var(--md-sys-color-on-surface);
+      background: var(--neutral-800);
+      color: var(--on-surface);
       font-family: 'Roboto', sans-serif;
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
       padding: 24px;
     }
     .card {
-      background: var(--md-sys-color-surface-container);
+      background: var(--surface-container);
       border-radius: 28px;
       max-width: 420px; width: 100%;
       box-shadow: var(--md-elevation-2);
       overflow: hidden;
     }
+    /* Header */
     .card-header {
-      background: var(--md-sys-color-primary-container);
+      background: var(--neutral-900);
       padding: 28px 24px 20px;
       display: flex; align-items: center; gap: 16px;
     }
     .app-icon-wrap {
       width: 56px; height: 56px; border-radius: 16px;
-      background: var(--md-sys-color-primary);
+      background: var(--primary);
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+      flex-shrink: 0; overflow: hidden;
     }
-    .app-icon-wrap .material-icons { color: var(--md-sys-color-on-primary); font-size: 32px; }
-    .card-header-text h1 { font-size: 1.375rem; font-weight: 700;
-      color: var(--md-sys-color-on-primary-container); }
-    .card-header-text p { font-size: .875rem; color: var(--md-sys-color-on-primary-container);
-      opacity: .75; margin-top: 2px; }
-    .card-body { padding: 20px 24px 24px; }
+    .app-icon-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .app-icon-wrap .material-icons { color: var(--on-primary); font-size: 32px; }
+    .card-header-text h1 { font-size: 1.375rem; font-weight: 700; color: var(--neutral-100); }
+    .card-header-text p  { font-size: .875rem; color: var(--teal-200); margin-top: 2px; }
+    /* Body */
+    .card-body { padding: 20px 24px 24px; background: var(--surface); }
+    /* Badge */
     .badge {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 6px 14px; border-radius: 999px;
       font-size: .8125rem; font-weight: 500; margin-bottom: 16px;
     }
     .badge .material-icons { font-size: 16px; }
-    .badge.up-to-date { background: var(--md-sys-color-tertiary-container); color: var(--md-sys-color-on-tertiary-container); }
-    .badge.update-available { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
-    .badge.error-badge { background: var(--md-sys-color-error-container); color: var(--md-sys-color-on-error-container); }
-    .badge.warn-badge { background: #FFF3CD; color: #7D5800; }
+    .badge.up-to-date      { background: var(--ok-container);    color: var(--on-ok-container); }
+    .badge.update-available{ background: var(--primary-container); color: var(--on-primary-container); }
+    .badge.error-badge     { background: var(--error-container);  color: var(--on-error-container); }
+    /* Version table */
     .version-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
     .version-table td { padding: 8px 0; font-size: .9rem; }
-    .version-table td:first-child { color: var(--md-sys-color-on-surface-variant); width: 55%; }
-    .version-table tr { border-bottom: 1px solid rgba(0,0,0,.06); }
+    .version-table td:first-child { color: var(--on-surface-variant); width: 55%; }
+    .version-table tr { border-bottom: 1px solid rgba(0,0,0,.07); }
     .version-table tr:last-child { border-bottom: none; }
+    /* Changelog */
     .changelog-label { font-size: .75rem; font-weight: 500; letter-spacing: .06em;
-      text-transform: uppercase; color: var(--md-sys-color-on-surface-variant); margin-bottom: 6px; }
-    .changelog { background: var(--md-sys-color-surface); border-radius: 12px;
-      padding: 12px 14px; font-size: .875rem; color: var(--md-sys-color-on-surface);
-      line-height: 1.55; margin-bottom: 20px; border: 1px solid rgba(0,0,0,.06); }
+      text-transform: uppercase; color: var(--on-surface-variant); margin-bottom: 6px; }
+    .changelog { background: var(--surface-container); border-radius: 12px;
+      padding: 12px 14px; font-size: .875rem; line-height: 1.55;
+      margin-bottom: 20px; border: 1px solid rgba(0,0,0,.07); }
+    /* Buttons */
     .btn-row { display: flex; flex-direction: column; gap: 10px; }
     .btn { display: flex; align-items: center; justify-content: center; gap: 8px;
       width: 100%; padding: 14px 24px; border-radius: 100px; border: none;
       font-family: 'Roboto', sans-serif; font-size: .9375rem; font-weight: 500;
       cursor: pointer; text-decoration: none; transition: opacity .15s; }
     .btn .material-icons { font-size: 20px; }
-    .btn:hover { opacity: .88; }
-    .btn-filled { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); box-shadow: var(--md-elevation-1); }
-    .btn-tonal { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+    .btn:hover { opacity: .85; }
+    .btn-filled { background: var(--primary); color: var(--on-primary); box-shadow: var(--md-elevation-1); }
+    .btn-tonal  { background: var(--secondary-container); color: var(--on-secondary-container); }
     #downloadBtn { display: none; }
+    /* Loading */
     .loading { display: flex; flex-direction: column; align-items: center; gap: 16px;
-      padding: 32px 0; color: var(--md-sys-color-on-surface-variant); }
+      padding: 32px 0; color: var(--on-surface-variant); }
     .spinner { width: 36px; height: 36px;
-      border: 3px solid var(--md-sys-color-primary-container);
-      border-top-color: var(--md-sys-color-primary);
+      border: 3px solid var(--primary-container);
+      border-top-color: var(--primary);
       border-radius: 50%; animation: spin .8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Nicht-Android Banner */
-    .not-android-body { padding: 24px; }
-    .not-android-icon {
-      width: 64px; height: 64px; border-radius: 20px;
-      background: var(--md-sys-color-error-container);
+    /* Nicht-Android */
+    .not-android-body { padding: 24px; background: var(--surface); }
+    .not-android-icon { width: 64px; height: 64px; border-radius: 20px;
+      background: var(--error-container);
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 16px;
-    }
-    .not-android-icon .material-icons { font-size: 36px; color: var(--md-sys-color-on-error-container); }
-    .not-android-title { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 8px; }
-    .not-android-text { font-size: .9rem; color: var(--md-sys-color-on-surface-variant);
-      text-align: center; line-height: 1.55; }
+      margin: 0 auto 16px; }
+    .not-android-icon .material-icons { font-size: 36px; color: var(--on-error-container); }
+    .not-android-title { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 8px; color: var(--on-surface); }
+    .not-android-text  { font-size: .9rem; color: var(--on-surface-variant); text-align: center; line-height: 1.55; }
+    /* Download-Hinweis */
+    .install-hint { font-size: .8rem; color: var(--on-surface-variant); text-align: center;
+      margin-top: 6px; line-height: 1.4; }
   </style>
 </head>
 <body>
 <div class="card" id="mainCard">
   <div class="card-header">
-    <div class="app-icon-wrap">
-      <span class="material-icons" id="appIcon">apps</span>
+    <div class="app-icon-wrap" id="iconWrap">
+      <span class="material-icons" id="appIconFallback">apps</span>
     </div>
     <div class="card-header-text">
       <h1 id="appName">Update</h1>
@@ -132,14 +145,17 @@
       <span class="badge" id="badge"></span>
       <table class="version-table">
         <tr><td>Installierte Version</td><td id="installedVer">–</td></tr>
-        <tr><td>Aktuelle Version</td><td id="latestVer">–</td></tr>
+        <tr><td>Aktuelle Version</td>    <td id="latestVer">–</td></tr>
       </table>
       <p class="changelog-label">Änderungen</p>
       <div class="changelog" id="changelog"></div>
       <div class="btn-row">
         <a id="downloadBtn" class="btn btn-filled" href="#">
-          <span class="material-icons">download</span>APK herunterladen
+          <span class="material-icons">download</span>Update installieren
         </a>
+        <p class="install-hint" id="installHint" style="display:none">
+          Nach dem Download: Datei öffnen → Installieren tippen
+        </p>
         <button id="closeBtn" class="btn btn-tonal" onclick="openApp()">
           <span class="material-icons">open_in_new</span>App öffnen
         </button>
@@ -161,25 +177,20 @@
 
 <script>
 (function () {
-  // ── Android-Check ─────────────────────────────────────────────────────
+  // ── Android-Check ──────────────────────────────────────────
   const isAndroid = /android/i.test(navigator.userAgent);
   if (!isAndroid) {
     document.getElementById('mainBody').innerHTML = `
       <div class="not-android-body">
-        <div class="not-android-icon">
-          <span class="material-icons">smartphone</span>
-        </div>
+        <div class="not-android-icon"><span class="material-icons">smartphone</span></div>
         <p class="not-android-title">Nur auf Android verfügbar</p>
-        <p class="not-android-text">
-          Diese Seite ist ausschließlich für Android-Geräte gedacht.<br>
-          Öffne den Link auf deinem Android-Smartphone oder -Tablet.
-        </p>
+        <p class="not-android-text">Diese Seite ist ausschließlich für Android-Geräte gedacht.<br>
+          Öffne den Link auf deinem Android-Smartphone oder -Tablet.</p>
       </div>`;
-    document.getElementById('loading') && (document.getElementById('loading').style.display = 'none');
     return;
   }
 
-  // ── URL-Parameter parsen ──────────────────────────────────────────────
+  // ── URL-Parameter ─────────────────────────────────────────────
   const params = new URLSearchParams(location.search);
   let appKey = null;
   for (const [k, v] of params.entries()) { if (v === '' || v === 'true') { appKey = k; break; } }
@@ -187,10 +198,20 @@
   const installedVersion = params.get('v') ?? '0.0.0';
   const appName = appKey.charAt(0).toUpperCase() + appKey.slice(1);
 
-  const icons = { hashi: 'hub' };
-  document.getElementById('appIcon').textContent = icons[appKey.toLowerCase()] ?? 'apps';
+  // ── App-Logo laden ──────────────────────────────────────────
+  const logoUrl = '/apps/' + appName + '/logo.png';
+  const img = new Image();
+  img.onload = () => {
+    const wrap = document.getElementById('iconWrap');
+    wrap.innerHTML = '';
+    wrap.appendChild(img);
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:16px;';
+  };
+  img.src = logoUrl;
+
   document.getElementById('appName').textContent = appName;
 
+  // ── App per Intent öffnen ───────────────────────────────────
   const intentUrls = {
     hashi: 'intent://open#Intent;scheme=de.koblin12.hashi;package=de.koblin12.hashi;end'
   };
@@ -199,6 +220,7 @@
     if (url) location.href = url; else window.close();
   };
 
+  // ── Versionsvergleich ─────────────────────────────────────
   function compareVersions(a, b) {
     const pa = String(a).split('.').map(Number);
     const pb = String(b).split('.').map(Number);
@@ -210,24 +232,56 @@
     return 0;
   }
 
+  // ── Auto-Install: APK herunterladen + sofort öffnen ──────────────
+  function startInstall(apkUrl, fileName) {
+    // Versuche APK per Blob + createObjectURL zu öffnen damit Android den
+    // Package-Installer direkt startet (funktioniert in Chrome/WebView)
+    fetch(apkUrl)
+      .then(r => r.blob())
+      .then(blob => {
+        const blobUrl = URL.createObjectURL(
+          new Blob([blob], { type: 'application/vnd.android.package-archive' })
+        );
+        const a = document.createElement('a');
+        a.href     = blobUrl;
+        a.download = fileName;
+        a.click();
+        // Hinweis einblenden (Fallback falls Android nicht auto-installed)
+        document.getElementById('installHint').style.display = 'block';
+      })
+      .catch(() => {
+        // Fallback: normaler Download-Link
+        const a = document.createElement('a');
+        a.href = apkUrl; a.download = fileName; a.click();
+        document.getElementById('installHint').style.display = 'block';
+      });
+  }
+
+  // ── Manifest laden ───────────────────────────────────────
   fetch('/apps/' + appName + '/versions.json')
     .then(r => { if (!r.ok) throw new Error('Manifest nicht gefunden'); return r.json(); })
     .then(data => {
       const latest = String(data.latest);
       const meta   = data.versions.find(v => String(v.version) === latest) ?? data.versions[0];
       const newer  = compareVersions(latest, installedVersion) > 0;
+
       document.getElementById('loading').style.display = 'none';
       document.getElementById('content').style.display = 'block';
       document.getElementById('installedVer').textContent = 'v' + installedVersion;
       document.getElementById('latestVer').textContent    = 'v' + latest;
       document.getElementById('changelog').textContent    = meta.changelog ?? '–';
+
       const badge = document.getElementById('badge');
       if (newer) {
         badge.innerHTML = '<span class="material-icons">system_update</span> Update verfügbar';
         badge.className = 'badge update-available';
-        const dl = document.getElementById('downloadBtn');
-        dl.href = meta.apk; dl.download = appName + '-v' + latest + '.apk';
+        const dl       = document.getElementById('downloadBtn');
+        const fileName = appName + '-v' + latest + '.apk';
         dl.style.display = 'flex';
+        dl.addEventListener('click', e => {
+          e.preventDefault();
+          startInstall(meta.apk, fileName);
+        });
       } else {
         badge.innerHTML = '<span class="material-icons">check_circle</span> Aktuell';
         badge.className = 'badge up-to-date';
