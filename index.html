@@ -7,93 +7,155 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    :root {
-      --blue-200:#90CAF9; --teal-600:#00897B; --teal-200:#80CBC4;
-      --neutral-900:#1A1A2E; --neutral-800:#16213E; --neutral-100:#F5F5F5;
-      --bg:#FFFFFF; --primary:var(--teal-600); --on-primary:#FFFFFF;
-      --primary-container:var(--teal-200); --on-primary-container:var(--neutral-900);
-      --secondary-container:var(--blue-200); --on-secondary-container:var(--neutral-900);
-      --surface:var(--neutral-100); --surface-container:#E8F4F3;
-      --on-surface:var(--neutral-900); --on-surface-variant:#455A64;
+    :root{
+      --blue-200:#90CAF9;--teal-600:#00897B;--teal-200:#80CBC4;
+      --neutral-900:#1A1A2E;--neutral-800:#16213E;--neutral-100:#F5F5F5;
+      --bg:#FFFFFF;--primary:var(--teal-600);--on-primary:#FFFFFF;
+      --primary-container:var(--teal-200);--on-primary-container:var(--neutral-900);
+      --secondary-container:var(--blue-200);--on-secondary-container:var(--neutral-900);
+      --surface:var(--neutral-100);--surface-container:#E8F4F3;
+      --on-surface:var(--neutral-900);--on-surface-variant:#455A64;
       --card-header-bg:var(--neutral-900);
-      --error-container:#FFCDD2; --on-error-container:#B71C1C;
-      --ok-container:#C8E6C9; --on-ok-container:#1B5E20;
-      --warn-container:#FFF9C4; --on-warn-container:#5D4037;
+      --error-container:#FFCDD2;--on-error-container:#B71C1C;
+      --ok-container:#C8E6C9;--on-ok-container:#1B5E20;
+      --warn-container:#FFF9C4;--on-warn-container:#5D4037;
       --divider:rgba(0,0,0,.07);
       --md-el1:0 1px 2px rgba(0,0,0,.14),0 1px 3px rgba(0,0,0,.10);
       --md-el2:0 2px 4px rgba(0,0,0,.14),0 3px 8px rgba(0,0,0,.10);
     }
     @media(prefers-color-scheme:dark){
       :root{
-        --bg:var(--neutral-800); --surface:#1E2A38; --surface-container:#243040;
-        --on-surface:#E8F0F0; --on-surface-variant:#90A4AE;
-        --secondary-container:#1E3A5F; --on-secondary-container:#90CAF9;
-        --error-container:#4E1111; --on-error-container:#FFCDD2;
-        --ok-container:#1B3A1F; --on-ok-container:#A5D6A7;
-        --warn-container:#3E2E00; --on-warn-container:#FFE082;
+        --bg:var(--neutral-800);--surface:#1E2A38;--surface-container:#243040;
+        --on-surface:#E8F0F0;--on-surface-variant:#90A4AE;
+        --secondary-container:#1E3A5F;--on-secondary-container:#90CAF9;
+        --error-container:#4E1111;--on-error-container:#FFCDD2;
+        --ok-container:#1B3A1F;--on-ok-container:#A5D6A7;
+        --warn-container:#3E2E00;--on-warn-container:#FFE082;
         --divider:rgba(255,255,255,.08);
         --md-el2:0 2px 8px rgba(0,0,0,.5);
       }
     }
     *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg);color:var(--on-surface);font-family:'Roboto',sans-serif;
-      min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-    .card{background:var(--surface-container);border-radius:28px;max-width:420px;width:100%;
-      box-shadow:var(--md-el2);overflow:hidden}
-    .card-header{background:var(--card-header-bg);padding:28px 24px 20px;
-      display:flex;align-items:center;gap:16px}
-    .icon-wrap{width:56px;height:56px;border-radius:16px;background:var(--primary);
-      display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+    body{
+      background:var(--bg);color:var(--on-surface);font-family:'Roboto',sans-serif;
+      min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+    }
+
+    /* ── Card ── */
+    .card{
+      background:var(--surface-container);border-radius:28px;max-width:420px;width:100%;
+      box-shadow:var(--md-el2);overflow:hidden;
+      animation:cardIn .4s cubic-bezier(.22,.61,.36,1) both;
+    }
+    @keyframes cardIn{
+      from{opacity:0;transform:translateY(18px) scale(.97)}
+      to  {opacity:1;transform:translateY(0)   scale(1)}
+    }
+
+    .card-header{
+      background:var(--card-header-bg);padding:28px 24px 20px;
+      display:flex;align-items:center;gap:16px;
+    }
+    .icon-wrap{
+      width:56px;height:56px;border-radius:16px;background:var(--primary);
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;
+      animation:iconPop .45s .15s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes iconPop{
+      from{opacity:0;transform:scale(.6)}
+      to  {opacity:1;transform:scale(1)}
+    }
     .icon-wrap img{width:100%;height:100%;object-fit:cover;display:block}
     .icon-wrap .material-icons{color:var(--on-primary);font-size:32px}
     .hdr-text h1{font-size:1.375rem;font-weight:700;color:var(--neutral-100)}
     .hdr-text p{font-size:.875rem;color:var(--teal-200);margin-top:2px}
     .card-body{padding:20px 24px 24px;background:var(--surface)}
-    .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;
-      border-radius:999px;font-size:.8125rem;font-weight:500;margin-bottom:16px}
+
+    /* ── Badge ── */
+    .badge{
+      display:inline-flex;align-items:center;gap:6px;padding:6px 14px;
+      border-radius:999px;font-size:.8125rem;font-weight:500;margin-bottom:16px;
+      animation:fadeSlideIn .3s .2s ease both;
+    }
     .badge .material-icons{font-size:16px}
     .badge.ok {background:var(--ok-container);     color:var(--on-ok-container)}
     .badge.upd{background:var(--primary-container);color:var(--on-primary-container)}
     .badge.err{background:var(--error-container);  color:var(--on-error-container)}
-    .vtable{width:100%;border-collapse:collapse;margin-bottom:16px}
+
+    /* ── Tabelle ── */
+    .vtable{width:100%;border-collapse:collapse;margin-bottom:16px;animation:fadeSlideIn .3s .25s ease both}
     .vtable td{padding:8px 0;font-size:.9rem}
     .vtable td:first-child{color:var(--on-surface-variant);width:55%}
     .vtable tr{border-bottom:1px solid var(--divider)}
     .vtable tr:last-child{border-bottom:none}
+
+    /* ── Changelog ── */
     .cl-label{font-size:.75rem;font-weight:500;letter-spacing:.06em;
-      text-transform:uppercase;color:var(--on-surface-variant);margin-bottom:6px}
-    .cl-box{background:var(--surface-container);border-radius:12px;padding:12px 14px;
+      text-transform:uppercase;color:var(--on-surface-variant);margin-bottom:6px;
+      animation:fadeSlideIn .3s .3s ease both}
+    .cl-box{
+      background:var(--surface-container);border-radius:12px;padding:12px 14px;
       font-size:.875rem;line-height:1.55;margin-bottom:20px;
-      border:1px solid var(--divider);color:var(--on-surface)}
-    .btn-row{display:flex;flex-direction:column;gap:10px}
-    .btn{display:flex;align-items:center;justify-content:center;gap:8px;
+      border:1px solid var(--divider);color:var(--on-surface);
+      animation:fadeSlideIn .3s .32s ease both;
+    }
+
+    /* ── Buttons ── */
+    .btn-row{display:flex;flex-direction:column;gap:10px;animation:fadeSlideIn .3s .36s ease both}
+    .btn{
+      display:flex;align-items:center;justify-content:center;gap:8px;
       width:100%;padding:14px 24px;border-radius:100px;border:none;
       font-family:'Roboto',sans-serif;font-size:.9375rem;font-weight:500;
-      cursor:pointer;text-decoration:none;transition:opacity .15s}
+      cursor:pointer;text-decoration:none;
+      transition:opacity .15s, transform .15s;
+    }
     .btn .material-icons{font-size:20px}
-    .btn:hover{opacity:.85}
+    .btn:hover{opacity:.88;transform:scale(1.01)}
+    .btn:active{transform:scale(.97)}
     .btn-filled{background:var(--primary);color:var(--on-primary);box-shadow:var(--md-el1)}
-    .btn-tonal{background:var(--secondary-container);color:var(--on-secondary-container)}
     #dlBtn,#confirmBtn{display:none}
-    /* Anleitung */
-    .install-steps{display:none;background:var(--warn-container);border-radius:16px;
-      padding:14px 16px}
-    .install-steps .is-title{font-size:.8125rem;font-weight:600;color:var(--on-warn-container);
-      margin-bottom:8px;display:flex;align-items:center;gap:6px}
-    .install-steps ol{padding-left:18px;font-size:.8125rem;
-      color:var(--on-warn-container);line-height:1.8;margin-bottom:12px}
-    /* Loading */
+
+    /* ── Anleitung (aufklappbar mit Animation) ── */
+    .install-steps{
+      background:var(--warn-container);border-radius:16px;padding:0 16px;
+      overflow:hidden;max-height:0;
+      transition:max-height .4s cubic-bezier(.4,0,.2,1), padding .4s ease;
+    }
+    .install-steps.open{
+      max-height:500px;padding:14px 16px;
+    }
+    .install-steps .is-title{
+      font-size:.8125rem;font-weight:600;color:var(--on-warn-container);
+      margin-bottom:8px;display:flex;align-items:center;gap:6px;
+    }
+    .install-steps ol{
+      padding-left:18px;font-size:.8125rem;
+      color:var(--on-warn-container);line-height:1.8;margin-bottom:12px;
+    }
+
+    /* ── Allgemeine Einblend-Animation ── */
+    @keyframes fadeSlideIn{
+      from{opacity:0;transform:translateY(8px)}
+      to  {opacity:1;transform:translateY(0)}
+    }
+
+    /* ── Loading ── */
     .loading{display:flex;flex-direction:column;align-items:center;gap:16px;
       padding:32px 0;color:var(--on-surface-variant)}
     .spinner{width:36px;height:36px;border:3px solid var(--primary-container);
       border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
-    .na-body{padding:24px;background:var(--surface)}
+
+    /* ── Nicht-Android ── */
+    .na-body{padding:24px;background:var(--surface);animation:fadeSlideIn .35s ease both}
     .na-icon{width:64px;height:64px;border-radius:20px;background:var(--error-container);
       display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
     .na-icon .material-icons{font-size:36px;color:var(--on-error-container)}
     .na-title{font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:8px;color:var(--on-surface)}
     .na-text{font-size:.9rem;color:var(--on-surface-variant);text-align:center;line-height:1.55}
+
+    /* ── Install-Modus Header-Subtitle ── */
+    .install-mode-sub{color:var(--teal-200)}
   </style>
 </head>
 <body>
@@ -103,28 +165,25 @@
       <span class="material-icons">apps</span>
     </div>
     <div class="hdr-text">
-      <h1 id="appName">Update</h1>
-      <p>Update-Check</p>
+      <h1 id="appName">App</h1>
+      <p id="headerSub">Update-Check</p>
     </div>
   </div>
   <div class="card-body" id="mainBody">
-    <div class="loading" id="loading"><div class="spinner"></div><span>Suche nach Updates…</span></div>
+    <div class="loading" id="loading"><div class="spinner"></div><span id="loadingText">Suche nach Updates…</span></div>
+
     <div id="content" style="display:none">
       <span class="badge" id="badge"></span>
-      <table class="vtable">
+      <table class="vtable" id="vTable">
         <tr><td>Installierte Version</td><td id="iVer">–</td></tr>
         <tr><td>Aktuelle Version</td>    <td id="lVer">–</td></tr>
       </table>
-      <p class="cl-label">Änderungen</p>
+      <p class="cl-label" id="clLabel">Änderungen</p>
       <div class="cl-box" id="changelog"></div>
       <div class="btn-row">
-
-        <!-- Schritt 1: Download-Button – zeigt zuerst die Anleitung -->
         <button id="dlBtn" class="btn btn-filled">
-          <span class="material-icons">download</span>Update installieren
+          <span class="material-icons">download</span><span id="dlBtnText">Update installieren</span>
         </button>
-
-        <!-- Schritt 2: Anleitung + Bestätigungs-Button -->
         <div class="install-steps" id="installSteps">
           <p class="is-title"><span class="material-icons">info</span>Vor dem Download lesen:</p>
           <ol>
@@ -133,14 +192,13 @@
             <li>Falls gefragt: „Unbekannte Quellen erlauben“ aktivieren</li>
             <li>Auf „Installieren“ tippen</li>
           </ol>
-          <!-- Bestätigungs-Button startet den echten Download -->
           <button id="confirmBtn" class="btn btn-filled">
             <span class="material-icons">download</span>Verstanden – jetzt herunterladen
           </button>
         </div>
-
       </div>
     </div>
+
     <div id="errorBox" style="display:none">
       <span class="badge err">
         <span class="material-icons">error_outline</span><span id="errMsg"></span>
@@ -161,23 +219,38 @@
     return;
   }
 
-  const params=new URLSearchParams(location.search);
-  let appKey=null;
-  for(const[k,v]of params.entries()){if(v===''||v==='true'){appKey=k;break;}}
-  if(!appKey)appKey=[...params.keys()][0]??'unknown';
-  const installedVer=params.get('v')??'0.0.0';
-  const appName=appKey.charAt(0).toUpperCase()+appKey.slice(1);
-  document.getElementById('appName').textContent=appName;
+  const params    = new URLSearchParams(location.search);
+  const isInstall = params.has('install');   // ?hashi&install&newest
+  const isNewest  = params.has('newest');
+
+  // App-Key ermitteln
+  let appKey = null;
+  for(const[k,v] of params.entries()){
+    if(k !== 'install' && k !== 'newest' && k !== 'v' && k !== 'requestUpdate'){
+      if(v === '' || v === 'true'){ appKey = k; break; }
+    }
+  }
+  if(!appKey) appKey = [...params.keys()].find(k=>!['install','newest','v','requestUpdate'].includes(k)) ?? 'unknown';
+
+  const installedVer = params.get('v') ?? '0.0.0';
+  const appName      = appKey.charAt(0).toUpperCase() + appKey.slice(1);
+
+  document.getElementById('appName').textContent = appName;
+
+  if(isInstall){
+    document.getElementById('headerSub').textContent = 'Installieren';
+    document.getElementById('loadingText').textContent = 'Lade Informationen…';
+  }
 
   // Logo
-  const logoImg=document.createElement('img');
-  logoImg.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:16px;display:block;';
-  logoImg.onload=()=>{
-    const w=document.getElementById('iconWrap');
-    w.innerHTML='';
+  const logoImg = document.createElement('img');
+  logoImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:16px;display:block;';
+  logoImg.onload = () => {
+    const w = document.getElementById('iconWrap');
+    w.innerHTML = '';
     w.appendChild(logoImg);
   };
-  logoImg.src='/apps/'+appName+'/logo.png?v=1';
+  logoImg.src = '/apps/' + appName + '/logo.png?v=1';
 
   function cmpVer(a,b){
     const pa=String(a).split('.').map(Number);
@@ -189,60 +262,73 @@
     return 0;
   }
 
-  function doDownload(apkUrl,fileName){
-    const a=document.createElement('a');
-    a.href=apkUrl;
-    a.download=fileName;
-    a.target='_blank';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    // Bestätigungs-Button nach Download deaktivieren
-    const cb=document.getElementById('confirmBtn');
-    cb.disabled=true;
-    cb.innerHTML='<span class="material-icons">check</span>Download gestartet';
-    cb.style.opacity='.6';
+  function doDownload(apkUrl, fileName){
+    const a = document.createElement('a');
+    a.href = apkUrl; a.download = fileName; a.target = '_blank';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    const cb = document.getElementById('confirmBtn');
+    cb.disabled = true;
+    cb.innerHTML = '<span class="material-icons">check</span>Download gestartet';
+    cb.style.opacity = '.6';
+    cb.style.transform = 'scale(1)';
   }
 
-  fetch('/apps/'+appName+'/versions.json')
-    .then(r=>{if(!r.ok)throw new Error('Manifest nicht gefunden');return r.json();})
-    .then(data=>{
-      const latest=String(data.latest);
-      const meta=data.versions.find(v=>String(v.version)===latest)??data.versions[0];
-      const newer=cmpVer(latest,installedVer)>0;
-      document.getElementById('loading').style.display='none';
-      document.getElementById('content').style.display='block';
-      document.getElementById('iVer').textContent='v'+installedVer;
-      document.getElementById('lVer').textContent='v'+latest;
-      document.getElementById('changelog').textContent=meta.changelog??'–';
-      const badge=document.getElementById('badge');
+  function showInstallFlow(apkUrl, fileName){
+    const dlBtn      = document.getElementById('dlBtn');
+    const steps      = document.getElementById('installSteps');
+    const confirmBtn = document.getElementById('confirmBtn');
+    dlBtn.style.display = 'flex';
+    dlBtn.addEventListener('click', () => {
+      dlBtn.style.display = 'none';
+      steps.classList.add('open'); // CSS-Transition klappt auf
+      confirmBtn.style.display = 'flex';
+      setTimeout(() => steps.scrollIntoView({behavior:'smooth',block:'nearest'}), 50);
+    });
+    confirmBtn.addEventListener('click', () => doDownload(apkUrl, fileName));
+  }
+
+  fetch('/apps/' + appName + '/versions.json')
+    .then(r => { if(!r.ok) throw new Error('Manifest nicht gefunden'); return r.json(); })
+    .then(data => {
+      const latest = String(data.latest);
+      const meta   = data.versions.find(v => String(v.version) === latest) ?? data.versions[0];
+      const fn     = appName + '-v' + latest + '.apk';
+
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+
+      // ── Install-Modus: direkt Download-Flow, kein Versionsvergleich ──
+      if(isInstall && isNewest){
+        document.getElementById('vTable').style.display   = 'none';
+        document.getElementById('clLabel').style.display  = 'none';
+        document.getElementById('changelog').style.display= 'none';
+        const badge = document.getElementById('badge');
+        badge.innerHTML = '<span class="material-icons">install_mobile</span> Neueste Version: v' + latest;
+        badge.className = 'badge upd';
+        document.getElementById('dlBtnText').textContent = 'Hashi installieren';
+        showInstallFlow(meta.apk, fn);
+        return;
+      }
+
+      // ── Update-Check-Modus ──
+      const newer = cmpVer(latest, installedVer) > 0;
+      document.getElementById('iVer').textContent = 'v' + installedVer;
+      document.getElementById('lVer').textContent = 'v' + latest;
+      document.getElementById('changelog').textContent = meta.changelog ?? '–';
+      const badge = document.getElementById('badge');
       if(newer){
-        badge.innerHTML='<span class="material-icons">system_update</span> Update verfügbar';
-        badge.className='badge upd';
-        const fn=appName+'-v'+latest+'.apk';
-        const dlBtn=document.getElementById('dlBtn');
-        const steps=document.getElementById('installSteps');
-        const confirmBtn=document.getElementById('confirmBtn');
-        dlBtn.style.display='flex';
-        // Klick auf "Update installieren" → Anleitung zeigen, Button verstecken
-        dlBtn.addEventListener('click',()=>{
-          dlBtn.style.display='none';
-          steps.style.display='block';
-          confirmBtn.style.display='flex';
-          // Zur Anleitung scrollen
-          steps.scrollIntoView({behavior:'smooth',block:'nearest'});
-        });
-        // Klick auf "Verstanden" → Download starten
-        confirmBtn.addEventListener('click',()=>doDownload(meta.apk,fn));
-      }else{
-        badge.innerHTML='<span class="material-icons">check_circle</span> Aktuell';
-        badge.className='badge ok';
+        badge.innerHTML = '<span class="material-icons">system_update</span> Update verfügbar';
+        badge.className = 'badge upd';
+        showInstallFlow(meta.apk, fn);
+      } else {
+        badge.innerHTML = '<span class="material-icons">check_circle</span> Aktuell';
+        badge.className = 'badge ok';
       }
     })
-    .catch(err=>{
-      document.getElementById('loading').style.display='none';
-      document.getElementById('errorBox').style.display='block';
-      document.getElementById('errMsg').textContent=err.message;
+    .catch(err => {
+      document.getElementById('loading').style.display  = 'none';
+      document.getElementById('errorBox').style.display = 'block';
+      document.getElementById('errMsg').textContent     = err.message;
     });
 }());
 </script>
