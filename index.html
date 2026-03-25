@@ -36,14 +36,11 @@
       }
     }
     *{box-sizing:border-box;margin:0;padding:0}
-
     body{
       background:var(--bg);color:var(--on-surface);font-family:'Roboto',sans-serif;
       min-height:100dvh;display:flex;align-items:center;justify-content:center;
       padding:16px;
     }
-
-    /* ── Card ── */
     .card{
       background:var(--surface-container);border-radius:24px;
       width:100%;max-width:400px;
@@ -54,8 +51,6 @@
       from{opacity:0;transform:translateY(16px) scale(.97)}
       to  {opacity:1;transform:translateY(0) scale(1)}
     }
-
-    /* ── Header ── */
     .card-header{
       background:var(--card-header-bg);padding:20px 20px 16px;
       display:flex;align-items:center;gap:14px;
@@ -73,11 +68,7 @@
     .icon-wrap .material-icons{color:var(--on-primary);font-size:28px}
     .hdr-text h1{font-size:1.2rem;font-weight:700;color:var(--neutral-100)}
     .hdr-text p {font-size:.8rem;color:var(--teal-200);margin-top:2px}
-
-    /* ── Body ── */
     .card-body{padding:16px 20px 20px;background:var(--surface)}
-
-    /* ── Badge ── */
     .badge{
       display:inline-flex;align-items:center;gap:5px;padding:5px 12px;
       border-radius:999px;font-size:.78rem;font-weight:500;margin-bottom:12px;
@@ -87,15 +78,11 @@
     .badge.ok {background:var(--ok-container);     color:var(--on-ok-container)}
     .badge.upd{background:var(--primary-container);color:var(--on-primary-container)}
     .badge.err{background:var(--error-container);  color:var(--on-error-container)}
-
-    /* ── Tabelle ── */
     .vtable{width:100%;border-collapse:collapse;margin-bottom:12px;animation:fadeUp .3s .25s ease both}
     .vtable td{padding:6px 0;font-size:.875rem}
     .vtable td:first-child{color:var(--on-surface-variant);width:55%}
     .vtable tr{border-bottom:1px solid var(--divider)}
     .vtable tr:last-child{border-bottom:none}
-
-    /* ── Changelog ── */
     .cl-label{
       font-size:.7rem;font-weight:500;letter-spacing:.06em;
       text-transform:uppercase;color:var(--on-surface-variant);margin-bottom:5px;
@@ -107,8 +94,6 @@
       border:1px solid var(--divider);color:var(--on-surface);
       animation:fadeUp .3s .32s ease both;
     }
-
-    /* ── Buttons ── */
     .btn-row{display:flex;flex-direction:column;gap:8px;animation:fadeUp .3s .36s ease both}
     .btn{
       display:flex;align-items:center;justify-content:center;gap:7px;
@@ -122,8 +107,6 @@
     .btn:active{transform:scale(.97)}
     .btn-filled{background:var(--primary);color:var(--on-primary);box-shadow:var(--md-el1)}
     #dlBtn,#confirmBtn{display:none}
-
-    /* ── Anleitung ── */
     .install-steps{
       background:var(--warn-container);border-radius:14px;padding:0 14px;
       overflow:hidden;max-height:0;
@@ -138,14 +121,10 @@
       padding-left:16px;font-size:.78rem;
       color:var(--on-warn-container);line-height:1.75;margin-bottom:10px;
     }
-
-    /* ── Animationen ── */
     @keyframes fadeUp{
       from{opacity:0;transform:translateY(7px)}
       to  {opacity:1;transform:translateY(0)}
     }
-
-    /* ── Loading ── */
     .loading{
       display:flex;flex-direction:column;align-items:center;gap:14px;
       padding:28px 0;color:var(--on-surface-variant);
@@ -156,8 +135,6 @@
       animation:spin .8s linear infinite;
     }
     @keyframes spin{to{transform:rotate(360deg)}}
-
-    /* ── Nicht-Android ── */
     .na-body{padding:20px;background:var(--surface);animation:fadeUp .35s ease both}
     .na-icon{
       width:56px;height:56px;border-radius:18px;background:var(--error-container);
@@ -243,25 +220,18 @@
   }
   if(!appKey) appKey=[...params.keys()].find(k=>!['install','newest','v','requestUpdate'].includes(k))??'unknown';
 
-  const installedVer = params.get('v')?? '0.0.0';
+  const installedVer = String(params.get('v')??'');
   const appName      = appKey.charAt(0).toUpperCase()+appKey.slice(1);
-  document.getElementById('appName').textContent    = appName;
-  if(isInstall) {
-    document.getElementById('headerSub').textContent  = 'Installieren';
-    document.getElementById('loadingText').textContent= 'Lade Informationen…';
+  document.getElementById('appName').textContent = appName;
+  if(isInstall){
+    document.getElementById('headerSub').textContent   = 'Installieren';
+    document.getElementById('loadingText').textContent = 'Lade Informationen…';
   }
 
   const logoImg=document.createElement('img');
   logoImg.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:14px;display:block;';
   logoImg.onload=()=>{ const w=document.getElementById('iconWrap'); w.innerHTML=''; w.appendChild(logoImg); };
   logoImg.src='/apps/'+appName+'/logo.png?v=1';
-
-  function cmpVer(a,b){
-    const pa=String(a).split('.').map(Number), pb=String(b).split('.').map(Number);
-    for(let i=0;i<Math.max(pa.length,pb.length);i++){
-      const d=(pa[i]??0)-(pb[i]??0); if(d!==0)return d;
-    } return 0;
-  }
 
   function doDownload(url,fn){
     const a=document.createElement('a'); a.href=url; a.download=fn; a.target='_blank';
@@ -288,12 +258,14 @@
   fetch('/apps/'+appName+'/versions.json')
     .then(r=>{ if(!r.ok) throw new Error('Manifest nicht gefunden'); return r.json(); })
     .then(data=>{
-      const latest=String(data.latest);
-      const meta=data.versions.find(v=>String(v.version)===latest)??data.versions[0];
-      const fn=appName+'-v'+latest+'.apk';
+      const latest = String(data.latest);
+      const meta   = data.versions.find(v=>String(v.version)===latest)??data.versions[0];
+      const fn     = appName+'-v'+latest+'.apk';
+
       document.getElementById('loading').style.display='none';
       document.getElementById('content').style.display='block';
 
+      // ── Install-Modus ──
       if(isInstall&&isNewest){
         document.getElementById('vTable').style.display='none';
         document.getElementById('clLabel').style.display='none';
@@ -306,18 +278,22 @@
         return;
       }
 
-      const newer=cmpVer(latest,installedVer)>0;
-      document.getElementById('iVer').textContent='v'+installedVer;
-      document.getElementById('lVer').textContent='v'+latest;
-      document.getElementById('changelog').textContent=meta.changelog??'–';
+      // ── Update-Check: nur exakter String-Vergleich mit latest ──
+      // Alles was nicht exakt "latest" entspricht (beta, 1.0, leer, ...) bekommt Update
+      const isUpToDate = (installedVer === latest);
+
+      document.getElementById('iVer').textContent = installedVer ? 'v'+installedVer : '–';
+      document.getElementById('lVer').textContent = 'v'+latest;
+      document.getElementById('changelog').textContent = meta.changelog??'–';
+
       const badge=document.getElementById('badge');
-      if(newer){
+      if(isUpToDate){
+        badge.innerHTML='<span class="material-icons">check_circle</span> Aktuell';
+        badge.className='badge ok';
+      } else {
         badge.innerHTML='<span class="material-icons">system_update</span> Update verfügbar';
         badge.className='badge upd';
         showInstallFlow(meta.apk,fn);
-      } else {
-        badge.innerHTML='<span class="material-icons">check_circle</span> Aktuell';
-        badge.className='badge ok';
       }
     })
     .catch(err=>{
