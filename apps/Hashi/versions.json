@@ -3,8 +3,8 @@
   "versions": [
     {
       "version": "1.0.0",
-      "apk": "/apps/Hashi/V1-0-0/release.apk",
-      "changelog": "Erste Veröffentlichung"
+      "apk": "https://github.com/jakobneukirchner/k12apps-updatechecker/releases/download/hashi/hashi-release.apk",
+      "changelog": "Offizieller Release | Public Release"
     }
   ]
 }
