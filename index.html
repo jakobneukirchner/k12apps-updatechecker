@@ -69,6 +69,7 @@
     .badge.up-to-date { background: var(--md-sys-color-tertiary-container); color: var(--md-sys-color-on-tertiary-container); }
     .badge.update-available { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
     .badge.error-badge { background: var(--md-sys-color-error-container); color: var(--md-sys-color-on-error-container); }
+    .badge.warn-badge { background: #FFF3CD; color: #7D5800; }
     .version-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
     .version-table td { padding: 8px 0; font-size: .9rem; }
     .version-table td:first-child { color: var(--md-sys-color-on-surface-variant); width: 55%; }
@@ -96,10 +97,23 @@
       border-top-color: var(--md-sys-color-primary);
       border-radius: 50%; animation: spin .8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Nicht-Android Banner */
+    .not-android-body { padding: 24px; }
+    .not-android-icon {
+      width: 64px; height: 64px; border-radius: 20px;
+      background: var(--md-sys-color-error-container);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .not-android-icon .material-icons { font-size: 36px; color: var(--md-sys-color-on-error-container); }
+    .not-android-title { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 8px; }
+    .not-android-text { font-size: .9rem; color: var(--md-sys-color-on-surface-variant);
+      text-align: center; line-height: 1.55; }
   </style>
 </head>
 <body>
-<div class="card">
+<div class="card" id="mainCard">
   <div class="card-header">
     <div class="app-icon-wrap">
       <span class="material-icons" id="appIcon">apps</span>
@@ -109,7 +123,7 @@
       <p id="appSub">Update-Check</p>
     </div>
   </div>
-  <div class="card-body">
+  <div class="card-body" id="mainBody">
     <div class="loading" id="loading">
       <div class="spinner"></div>
       <span>Suche nach Updates…</span>
@@ -144,17 +158,39 @@
     </div>
   </div>
 </div>
+
 <script>
 (function () {
+  // ── Android-Check ─────────────────────────────────────────────────────
+  const isAndroid = /android/i.test(navigator.userAgent);
+  if (!isAndroid) {
+    document.getElementById('mainBody').innerHTML = `
+      <div class="not-android-body">
+        <div class="not-android-icon">
+          <span class="material-icons">smartphone</span>
+        </div>
+        <p class="not-android-title">Nur auf Android verfügbar</p>
+        <p class="not-android-text">
+          Diese Seite ist ausschließlich für Android-Geräte gedacht.<br>
+          Öffne den Link auf deinem Android-Smartphone oder -Tablet.
+        </p>
+      </div>`;
+    document.getElementById('loading') && (document.getElementById('loading').style.display = 'none');
+    return;
+  }
+
+  // ── URL-Parameter parsen ──────────────────────────────────────────────
   const params = new URLSearchParams(location.search);
   let appKey = null;
   for (const [k, v] of params.entries()) { if (v === '' || v === 'true') { appKey = k; break; } }
   if (!appKey) appKey = [...params.keys()][0] ?? 'unknown';
   const installedVersion = params.get('v') ?? '0.0.0';
   const appName = appKey.charAt(0).toUpperCase() + appKey.slice(1);
+
   const icons = { hashi: 'hub' };
   document.getElementById('appIcon').textContent = icons[appKey.toLowerCase()] ?? 'apps';
   document.getElementById('appName').textContent = appName;
+
   const intentUrls = {
     hashi: 'intent://open#Intent;scheme=de.koblin12.hashi;package=de.koblin12.hashi;end'
   };
@@ -162,6 +198,7 @@
     const url = intentUrls[appKey.toLowerCase()];
     if (url) location.href = url; else window.close();
   };
+
   function compareVersions(a, b) {
     const pa = String(a).split('.').map(Number);
     const pb = String(b).split('.').map(Number);
@@ -172,6 +209,7 @@
     }
     return 0;
   }
+
   fetch('/apps/' + appName + '/versions.json')
     .then(r => { if (!r.ok) throw new Error('Manifest nicht gefunden'); return r.json(); })
     .then(data => {
