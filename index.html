@@ -1,24 +1,120 @@
-<!-- 
-Online HTML, CSS and JavaScript editor to run code online.
--->
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>UPDATECHECKER</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K12 Apps – Update Checker</title>
+  <style>
+    :root { --bg: #0f0f0f; --surface: #1e1e1e; --primary: #4fc3f7; --text: #e0e0e0; --sub: #888; --ok: #66bb6a; --warn: #ffa726; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif;
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .card { background: var(--surface); border-radius: 16px; padding: 32px; max-width: 480px; width: 100%;
+            box-shadow: 0 8px 32px rgba(0,0,0,.5); }
+    .app-icon { width: 64px; height: 64px; border-radius: 16px; background: var(--primary);
+                display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 16px; }
+    h1 { font-size: 1.5rem; margin-bottom: 4px; }
+    .sub { color: var(--sub); font-size: .9rem; margin-bottom: 24px; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: .8rem;
+             font-weight: 600; margin-bottom: 16px; }
+    .badge.up-to-date { background: rgba(102,187,106,.15); color: var(--ok); }
+    .badge.update-available { background: rgba(255,167,38,.15); color: var(--warn); }
+    .version-row { display: flex; justify-content: space-between; padding: 10px 0;
+                   border-bottom: 1px solid #2a2a2a; font-size: .9rem; }
+    .version-row:last-child { border-bottom: none; }
+    .label { color: var(--sub); }
+    .changelog { background: #2a2a2a; border-radius: 8px; padding: 12px 16px;
+                 font-size: .85rem; color: var(--sub); margin: 16px 0; line-height: 1.5; }
+    .btn { display: block; width: 100%; padding: 14px; border-radius: 12px; border: none;
+           background: var(--primary); color: #000; font-size: 1rem; font-weight: 700;
+           cursor: pointer; text-decoration: none; text-align: center; margin-top: 8px; transition: opacity .2s; }
+    .btn:hover { opacity: .85; }
+    .btn.secondary { background: transparent; border: 1px solid #333; color: var(--text); font-weight: 400; }
+    #error { color: #ef5350; font-size: .9rem; margin-top: 12px; display: none; }
+  </style>
 </head>
-
 <body>
-  <h1>
-    Keinen Wert angegeben
-  </h1>
-  <p>
-    Bitte Wert angeben
-  </p>
-  <script src="script.js"></script>
-</body>
+<div class="card">
+  <div class="app-icon" id="appIcon">📱</div>
+  <h1 id="appName">Update Checker</h1>
+  <p class="sub" id="appSub">Wird geladen…</p>
 
+  <div id="content" style="display:none">
+    <span class="badge" id="badge"></span>
+    <div class="version-row"><span class="label">Installierte Version</span><span id="installedVer"></span></div>
+    <div class="version-row"><span class="label">Aktuelle Version</span><span id="latestVer"></span></div>
+    <div class="changelog" id="changelog"></div>
+    <a id="downloadBtn" class="btn" style="display:none" href="#">⬇ APK herunterladen</a>
+    <a id="closeBtn" class="btn secondary" href="#" onclick="window.close();return false;">Schließen</a>
+  </div>
+  <p id="error"></p>
+</div>
+
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+
+  // URL-Format: ?hashi&v=1.0.0&requestUpdate
+  // App-Name = erster Key ohne Wert  (z.B. "hashi")
+  let appKey = null;
+  for (const [k, v] of params.entries()) { if (v === '' || v === 'true') { appKey = k; break; } }
+  // Fallback: erster key
+  if (!appKey) appKey = [...params.keys()][0] ?? 'unknown';
+
+  const installedVersion = params.get('v') ?? '0.0.0';
+  const appName = appKey.charAt(0).toUpperCase() + appKey.slice(1);
+
+  const icons = { hashi: '🌉' };
+  document.getElementById('appIcon').textContent = icons[appKey.toLowerCase()] ?? '📱';
+  document.getElementById('appName').textContent = appName;
+  document.getElementById('appSub').textContent  = 'Suche nach Updates…';
+
+  const manifestUrl = `/apps/${appName}/versions.json`;
+
+  fetch(manifestUrl)
+    .then(r => { if (!r.ok) throw new Error('Manifest nicht gefunden'); return r.json(); })
+    .then(data => {
+      const latest   = data.latest;
+      const meta     = data.versions.find(v => v.version === latest) ?? data.versions[0];
+      const hasUpdate = compareVersions(latest, installedVersion) > 0;
+
+      document.getElementById('appSub').textContent   = appName + ' – Update-Check';
+      document.getElementById('installedVer').textContent = 'v' + installedVersion;
+      document.getElementById('latestVer').textContent    = 'v' + latest;
+      document.getElementById('changelog').textContent    = meta.changelog ?? '';
+
+      const badge = document.getElementById('badge');
+      if (hasUpdate) {
+        badge.textContent  = 'Update verfügbar';
+        badge.className    = 'badge update-available';
+        const dl = document.getElementById('downloadBtn');
+        dl.href            = meta.apk;
+        dl.style.display   = 'block';
+        dl.download        = appName + '-v' + latest + '.apk';
+      } else {
+        badge.textContent = 'Aktuell ✓';
+        badge.className   = 'badge up-to-date';
+      }
+
+      document.getElementById('content').style.display = 'block';
+    })
+    .catch(err => {
+      document.getElementById('appSub').textContent = '';
+      const el = document.getElementById('error');
+      el.textContent = 'Fehler: ' + err.message;
+      el.style.display = 'block';
+    });
+
+  function compareVersions(a, b) {
+    const pa = a.split('.').map(Number);
+    const pb = b.split('.').map(Number);
+    for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+      const d = (pa[i] ?? 0) - (pb[i] ?? 0);
+      if (d !== 0) return d;
+    }
+    return 0;
+  }
+}());
+</script>
+</body>
 </html>
