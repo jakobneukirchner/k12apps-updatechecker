@@ -256,7 +256,7 @@
   }
 
   fetch('/apps/'+appName+'/versions.json')
-    .then(r=>{ if(!r.ok) throw new Error('Manifest nicht gefunden'); return r.json(); })
+    .then(r=>{ if(!r.ok) throw new Error('Die Anwendung oder das dazugehörige Verzeichnis wurde nicht gefunden.'); return r.json(); })
     .then(data=>{
       const latest = String(data.latest);
       const meta   = data.versions.find(v=>String(v.version)===latest)??data.versions[0];
