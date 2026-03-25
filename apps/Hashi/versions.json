@@ -1,5 +1,5 @@
 {
-  "latest": "1.2",
+  "latest": "1.3",
   "versions": [
     {
       "version": "1.0",
@@ -10,6 +10,12 @@
       "version": "1.2",
       "apk": "https://github.com/jakobneukirchner/k12apps-updatechecker/releases/download/hashi-v1.2/hashi-release-v1.2.apk",
       "changelog": "Updater korrigiert"
-    }
+    },
+    {
+      "version": "1.3",
+      "apk": "https://github.com/jakobneukirchner/k12apps-updatechecker/releases/download/hashi-v1.3/hashi-release-v1.3.apk",
+      "changelog": "Brücken können leichter gelöscht werden (Hitbox vergrößert)"
+    },
   ]
 }
+
