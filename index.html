@@ -36,126 +36,136 @@
       }
     }
     *{box-sizing:border-box;margin:0;padding:0}
+
     body{
       background:var(--bg);color:var(--on-surface);font-family:'Roboto',sans-serif;
-      min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+      min-height:100dvh;display:flex;align-items:center;justify-content:center;
+      padding:16px;
     }
 
     /* ── Card ── */
     .card{
-      background:var(--surface-container);border-radius:28px;max-width:420px;width:100%;
+      background:var(--surface-container);border-radius:24px;
+      width:100%;max-width:400px;
       box-shadow:var(--md-el2);overflow:hidden;
       animation:cardIn .4s cubic-bezier(.22,.61,.36,1) both;
     }
     @keyframes cardIn{
-      from{opacity:0;transform:translateY(18px) scale(.97)}
-      to  {opacity:1;transform:translateY(0)   scale(1)}
+      from{opacity:0;transform:translateY(16px) scale(.97)}
+      to  {opacity:1;transform:translateY(0) scale(1)}
     }
 
+    /* ── Header ── */
     .card-header{
-      background:var(--card-header-bg);padding:28px 24px 20px;
-      display:flex;align-items:center;gap:16px;
+      background:var(--card-header-bg);padding:20px 20px 16px;
+      display:flex;align-items:center;gap:14px;
     }
     .icon-wrap{
-      width:56px;height:56px;border-radius:16px;background:var(--primary);
+      width:48px;height:48px;border-radius:14px;background:var(--primary);
       display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;
       animation:iconPop .45s .15s cubic-bezier(.34,1.56,.64,1) both;
     }
     @keyframes iconPop{
-      from{opacity:0;transform:scale(.6)}
+      from{opacity:0;transform:scale(.55)}
       to  {opacity:1;transform:scale(1)}
     }
     .icon-wrap img{width:100%;height:100%;object-fit:cover;display:block}
-    .icon-wrap .material-icons{color:var(--on-primary);font-size:32px}
-    .hdr-text h1{font-size:1.375rem;font-weight:700;color:var(--neutral-100)}
-    .hdr-text p{font-size:.875rem;color:var(--teal-200);margin-top:2px}
-    .card-body{padding:20px 24px 24px;background:var(--surface)}
+    .icon-wrap .material-icons{color:var(--on-primary);font-size:28px}
+    .hdr-text h1{font-size:1.2rem;font-weight:700;color:var(--neutral-100)}
+    .hdr-text p {font-size:.8rem;color:var(--teal-200);margin-top:2px}
+
+    /* ── Body ── */
+    .card-body{padding:16px 20px 20px;background:var(--surface)}
 
     /* ── Badge ── */
     .badge{
-      display:inline-flex;align-items:center;gap:6px;padding:6px 14px;
-      border-radius:999px;font-size:.8125rem;font-weight:500;margin-bottom:16px;
-      animation:fadeSlideIn .3s .2s ease both;
+      display:inline-flex;align-items:center;gap:5px;padding:5px 12px;
+      border-radius:999px;font-size:.78rem;font-weight:500;margin-bottom:12px;
+      animation:fadeUp .3s .2s ease both;
     }
-    .badge .material-icons{font-size:16px}
+    .badge .material-icons{font-size:15px}
     .badge.ok {background:var(--ok-container);     color:var(--on-ok-container)}
     .badge.upd{background:var(--primary-container);color:var(--on-primary-container)}
     .badge.err{background:var(--error-container);  color:var(--on-error-container)}
 
     /* ── Tabelle ── */
-    .vtable{width:100%;border-collapse:collapse;margin-bottom:16px;animation:fadeSlideIn .3s .25s ease both}
-    .vtable td{padding:8px 0;font-size:.9rem}
+    .vtable{width:100%;border-collapse:collapse;margin-bottom:12px;animation:fadeUp .3s .25s ease both}
+    .vtable td{padding:6px 0;font-size:.875rem}
     .vtable td:first-child{color:var(--on-surface-variant);width:55%}
     .vtable tr{border-bottom:1px solid var(--divider)}
     .vtable tr:last-child{border-bottom:none}
 
     /* ── Changelog ── */
-    .cl-label{font-size:.75rem;font-weight:500;letter-spacing:.06em;
-      text-transform:uppercase;color:var(--on-surface-variant);margin-bottom:6px;
-      animation:fadeSlideIn .3s .3s ease both}
+    .cl-label{
+      font-size:.7rem;font-weight:500;letter-spacing:.06em;
+      text-transform:uppercase;color:var(--on-surface-variant);margin-bottom:5px;
+      animation:fadeUp .3s .3s ease both;
+    }
     .cl-box{
-      background:var(--surface-container);border-radius:12px;padding:12px 14px;
-      font-size:.875rem;line-height:1.55;margin-bottom:20px;
+      background:var(--surface-container);border-radius:10px;padding:10px 12px;
+      font-size:.84rem;line-height:1.5;margin-bottom:14px;
       border:1px solid var(--divider);color:var(--on-surface);
-      animation:fadeSlideIn .3s .32s ease both;
+      animation:fadeUp .3s .32s ease both;
     }
 
     /* ── Buttons ── */
-    .btn-row{display:flex;flex-direction:column;gap:10px;animation:fadeSlideIn .3s .36s ease both}
+    .btn-row{display:flex;flex-direction:column;gap:8px;animation:fadeUp .3s .36s ease both}
     .btn{
-      display:flex;align-items:center;justify-content:center;gap:8px;
-      width:100%;padding:14px 24px;border-radius:100px;border:none;
-      font-family:'Roboto',sans-serif;font-size:.9375rem;font-weight:500;
+      display:flex;align-items:center;justify-content:center;gap:7px;
+      width:100%;padding:12px 20px;border-radius:100px;border:none;
+      font-family:'Roboto',sans-serif;font-size:.9rem;font-weight:500;
       cursor:pointer;text-decoration:none;
-      transition:opacity .15s, transform .15s;
+      transition:opacity .15s,transform .15s;
     }
-    .btn .material-icons{font-size:20px}
+    .btn .material-icons{font-size:19px}
     .btn:hover{opacity:.88;transform:scale(1.01)}
     .btn:active{transform:scale(.97)}
     .btn-filled{background:var(--primary);color:var(--on-primary);box-shadow:var(--md-el1)}
     #dlBtn,#confirmBtn{display:none}
 
-    /* ── Anleitung (aufklappbar mit Animation) ── */
+    /* ── Anleitung ── */
     .install-steps{
-      background:var(--warn-container);border-radius:16px;padding:0 16px;
+      background:var(--warn-container);border-radius:14px;padding:0 14px;
       overflow:hidden;max-height:0;
-      transition:max-height .4s cubic-bezier(.4,0,.2,1), padding .4s ease;
+      transition:max-height .4s cubic-bezier(.4,0,.2,1),padding .4s ease;
     }
-    .install-steps.open{
-      max-height:500px;padding:14px 16px;
-    }
+    .install-steps.open{max-height:400px;padding:12px 14px}
     .install-steps .is-title{
-      font-size:.8125rem;font-weight:600;color:var(--on-warn-container);
-      margin-bottom:8px;display:flex;align-items:center;gap:6px;
+      font-size:.78rem;font-weight:600;color:var(--on-warn-container);
+      margin-bottom:7px;display:flex;align-items:center;gap:5px;
     }
     .install-steps ol{
-      padding-left:18px;font-size:.8125rem;
-      color:var(--on-warn-container);line-height:1.8;margin-bottom:12px;
+      padding-left:16px;font-size:.78rem;
+      color:var(--on-warn-container);line-height:1.75;margin-bottom:10px;
     }
 
-    /* ── Allgemeine Einblend-Animation ── */
-    @keyframes fadeSlideIn{
-      from{opacity:0;transform:translateY(8px)}
+    /* ── Animationen ── */
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(7px)}
       to  {opacity:1;transform:translateY(0)}
     }
 
     /* ── Loading ── */
-    .loading{display:flex;flex-direction:column;align-items:center;gap:16px;
-      padding:32px 0;color:var(--on-surface-variant)}
-    .spinner{width:36px;height:36px;border:3px solid var(--primary-container);
-      border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+    .loading{
+      display:flex;flex-direction:column;align-items:center;gap:14px;
+      padding:28px 0;color:var(--on-surface-variant);
+    }
+    .spinner{
+      width:32px;height:32px;border:3px solid var(--primary-container);
+      border-top-color:var(--primary);border-radius:50%;
+      animation:spin .8s linear infinite;
+    }
     @keyframes spin{to{transform:rotate(360deg)}}
 
     /* ── Nicht-Android ── */
-    .na-body{padding:24px;background:var(--surface);animation:fadeSlideIn .35s ease both}
-    .na-icon{width:64px;height:64px;border-radius:20px;background:var(--error-container);
-      display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-    .na-icon .material-icons{font-size:36px;color:var(--on-error-container)}
-    .na-title{font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:8px;color:var(--on-surface)}
-    .na-text{font-size:.9rem;color:var(--on-surface-variant);text-align:center;line-height:1.55}
-
-    /* ── Install-Modus Header-Subtitle ── */
-    .install-mode-sub{color:var(--teal-200)}
+    .na-body{padding:20px;background:var(--surface);animation:fadeUp .35s ease both}
+    .na-icon{
+      width:56px;height:56px;border-radius:18px;background:var(--error-container);
+      display:flex;align-items:center;justify-content:center;margin:0 auto 12px;
+    }
+    .na-icon .material-icons{font-size:30px;color:var(--on-error-container)}
+    .na-title{font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:6px;color:var(--on-surface)}
+    .na-text{font-size:.875rem;color:var(--on-surface-variant);text-align:center;line-height:1.5}
   </style>
 </head>
 <body>
@@ -170,8 +180,10 @@
     </div>
   </div>
   <div class="card-body" id="mainBody">
-    <div class="loading" id="loading"><div class="spinner"></div><span id="loadingText">Suche nach Updates…</span></div>
-
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <span id="loadingText">Suche nach Updates…</span>
+    </div>
     <div id="content" style="display:none">
       <span class="badge" id="badge"></span>
       <table class="vtable" id="vTable">
@@ -182,7 +194,8 @@
       <div class="cl-box" id="changelog"></div>
       <div class="btn-row">
         <button id="dlBtn" class="btn btn-filled">
-          <span class="material-icons">download</span><span id="dlBtnText">Update installieren</span>
+          <span class="material-icons">download</span>
+          <span id="dlBtnText">Update installieren</span>
         </button>
         <div class="install-steps" id="installSteps">
           <p class="is-title"><span class="material-icons">info</span>Vor dem Download lesen:</p>
@@ -198,7 +211,6 @@
         </div>
       </div>
     </div>
-
     <div id="errorBox" style="display:none">
       <span class="badge err">
         <span class="material-icons">error_outline</span><span id="errMsg"></span>
@@ -220,115 +232,98 @@
   }
 
   const params    = new URLSearchParams(location.search);
-  const isInstall = params.has('install');   // ?hashi&install&newest
+  const isInstall = params.has('install');
   const isNewest  = params.has('newest');
 
-  // App-Key ermitteln
   let appKey = null;
   for(const[k,v] of params.entries()){
-    if(k !== 'install' && k !== 'newest' && k !== 'v' && k !== 'requestUpdate'){
-      if(v === '' || v === 'true'){ appKey = k; break; }
+    if(!['install','newest','v','requestUpdate'].includes(k) && (v===''||v==='true')){
+      appKey=k; break;
     }
   }
-  if(!appKey) appKey = [...params.keys()].find(k=>!['install','newest','v','requestUpdate'].includes(k)) ?? 'unknown';
+  if(!appKey) appKey=[...params.keys()].find(k=>!['install','newest','v','requestUpdate'].includes(k))??'unknown';
 
-  const installedVer = params.get('v') ?? '0.0.0';
-  const appName      = appKey.charAt(0).toUpperCase() + appKey.slice(1);
-
-  document.getElementById('appName').textContent = appName;
-
-  if(isInstall){
-    document.getElementById('headerSub').textContent = 'Installieren';
-    document.getElementById('loadingText').textContent = 'Lade Informationen…';
+  const installedVer = params.get('v')?? '0.0.0';
+  const appName      = appKey.charAt(0).toUpperCase()+appKey.slice(1);
+  document.getElementById('appName').textContent    = appName;
+  if(isInstall) {
+    document.getElementById('headerSub').textContent  = 'Installieren';
+    document.getElementById('loadingText').textContent= 'Lade Informationen…';
   }
 
-  // Logo
-  const logoImg = document.createElement('img');
-  logoImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:16px;display:block;';
-  logoImg.onload = () => {
-    const w = document.getElementById('iconWrap');
-    w.innerHTML = '';
-    w.appendChild(logoImg);
-  };
-  logoImg.src = '/apps/' + appName + '/logo.png?v=1';
+  const logoImg=document.createElement('img');
+  logoImg.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:14px;display:block;';
+  logoImg.onload=()=>{ const w=document.getElementById('iconWrap'); w.innerHTML=''; w.appendChild(logoImg); };
+  logoImg.src='/apps/'+appName+'/logo.png?v=1';
 
   function cmpVer(a,b){
-    const pa=String(a).split('.').map(Number);
-    const pb=String(b).split('.').map(Number);
+    const pa=String(a).split('.').map(Number), pb=String(b).split('.').map(Number);
     for(let i=0;i<Math.max(pa.length,pb.length);i++){
-      const d=(pa[i]??0)-(pb[i]??0);
-      if(d!==0)return d;
-    }
-    return 0;
+      const d=(pa[i]??0)-(pb[i]??0); if(d!==0)return d;
+    } return 0;
   }
 
-  function doDownload(apkUrl, fileName){
-    const a = document.createElement('a');
-    a.href = apkUrl; a.download = fileName; a.target = '_blank';
+  function doDownload(url,fn){
+    const a=document.createElement('a'); a.href=url; a.download=fn; a.target='_blank';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    const cb = document.getElementById('confirmBtn');
-    cb.disabled = true;
-    cb.innerHTML = '<span class="material-icons">check</span>Download gestartet';
-    cb.style.opacity = '.6';
-    cb.style.transform = 'scale(1)';
+    const cb=document.getElementById('confirmBtn');
+    cb.disabled=true; cb.style.opacity='.6';
+    cb.innerHTML='<span class="material-icons">check</span>Download gestartet';
   }
 
-  function showInstallFlow(apkUrl, fileName){
-    const dlBtn      = document.getElementById('dlBtn');
-    const steps      = document.getElementById('installSteps');
-    const confirmBtn = document.getElementById('confirmBtn');
-    dlBtn.style.display = 'flex';
-    dlBtn.addEventListener('click', () => {
-      dlBtn.style.display = 'none';
-      steps.classList.add('open'); // CSS-Transition klappt auf
-      confirmBtn.style.display = 'flex';
-      setTimeout(() => steps.scrollIntoView({behavior:'smooth',block:'nearest'}), 50);
+  function showInstallFlow(url,fn){
+    const dlBtn=document.getElementById('dlBtn');
+    const steps=document.getElementById('installSteps');
+    const confirmBtn=document.getElementById('confirmBtn');
+    dlBtn.style.display='flex';
+    dlBtn.addEventListener('click',()=>{
+      dlBtn.style.display='none';
+      steps.classList.add('open');
+      confirmBtn.style.display='flex';
+      setTimeout(()=>steps.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
     });
-    confirmBtn.addEventListener('click', () => doDownload(apkUrl, fileName));
+    confirmBtn.addEventListener('click',()=>doDownload(url,fn));
   }
 
-  fetch('/apps/' + appName + '/versions.json')
-    .then(r => { if(!r.ok) throw new Error('Manifest nicht gefunden'); return r.json(); })
-    .then(data => {
-      const latest = String(data.latest);
-      const meta   = data.versions.find(v => String(v.version) === latest) ?? data.versions[0];
-      const fn     = appName + '-v' + latest + '.apk';
+  fetch('/apps/'+appName+'/versions.json')
+    .then(r=>{ if(!r.ok) throw new Error('Manifest nicht gefunden'); return r.json(); })
+    .then(data=>{
+      const latest=String(data.latest);
+      const meta=data.versions.find(v=>String(v.version)===latest)??data.versions[0];
+      const fn=appName+'-v'+latest+'.apk';
+      document.getElementById('loading').style.display='none';
+      document.getElementById('content').style.display='block';
 
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('content').style.display = 'block';
-
-      // ── Install-Modus: direkt Download-Flow, kein Versionsvergleich ──
-      if(isInstall && isNewest){
-        document.getElementById('vTable').style.display   = 'none';
-        document.getElementById('clLabel').style.display  = 'none';
-        document.getElementById('changelog').style.display= 'none';
-        const badge = document.getElementById('badge');
-        badge.innerHTML = '<span class="material-icons">install_mobile</span> Neueste Version: v' + latest;
-        badge.className = 'badge upd';
-        document.getElementById('dlBtnText').textContent = 'Hashi installieren';
-        showInstallFlow(meta.apk, fn);
+      if(isInstall&&isNewest){
+        document.getElementById('vTable').style.display='none';
+        document.getElementById('clLabel').style.display='none';
+        document.getElementById('changelog').style.display='none';
+        const badge=document.getElementById('badge');
+        badge.innerHTML='<span class="material-icons">install_mobile</span> Neueste Version: v'+latest;
+        badge.className='badge upd';
+        document.getElementById('dlBtnText').textContent=appName+' installieren';
+        showInstallFlow(meta.apk,fn);
         return;
       }
 
-      // ── Update-Check-Modus ──
-      const newer = cmpVer(latest, installedVer) > 0;
-      document.getElementById('iVer').textContent = 'v' + installedVer;
-      document.getElementById('lVer').textContent = 'v' + latest;
-      document.getElementById('changelog').textContent = meta.changelog ?? '–';
-      const badge = document.getElementById('badge');
+      const newer=cmpVer(latest,installedVer)>0;
+      document.getElementById('iVer').textContent='v'+installedVer;
+      document.getElementById('lVer').textContent='v'+latest;
+      document.getElementById('changelog').textContent=meta.changelog??'–';
+      const badge=document.getElementById('badge');
       if(newer){
-        badge.innerHTML = '<span class="material-icons">system_update</span> Update verfügbar';
-        badge.className = 'badge upd';
-        showInstallFlow(meta.apk, fn);
+        badge.innerHTML='<span class="material-icons">system_update</span> Update verfügbar';
+        badge.className='badge upd';
+        showInstallFlow(meta.apk,fn);
       } else {
-        badge.innerHTML = '<span class="material-icons">check_circle</span> Aktuell';
-        badge.className = 'badge ok';
+        badge.innerHTML='<span class="material-icons">check_circle</span> Aktuell';
+        badge.className='badge ok';
       }
     })
-    .catch(err => {
-      document.getElementById('loading').style.display  = 'none';
-      document.getElementById('errorBox').style.display = 'block';
-      document.getElementById('errMsg').textContent     = err.message;
+    .catch(err=>{
+      document.getElementById('loading').style.display='none';
+      document.getElementById('errorBox').style.display='block';
+      document.getElementById('errMsg').textContent=err.message;
     });
 }());
 </script>
