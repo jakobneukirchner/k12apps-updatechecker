@@ -8,42 +8,64 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     :root {
-      /* Hashi App Colors (Color.kt) */
-      --blue-700:    #1565C0;
-      --blue-500:    #1E88E5;
       --blue-200:    #90CAF9;
       --teal-600:    #00897B;
       --teal-200:    #80CBC4;
       --neutral-900: #1A1A2E;
       --neutral-800: #16213E;
       --neutral-100: #F5F5F5;
-      --error-red:   #D32F2F;
 
-      --primary:            var(--teal-600);
-      --on-primary:         #FFFFFF;
-      --primary-container:  var(--teal-200);
+      /* Light (Standard) */
+      --bg:                  #FFFFFF;
+      --primary:             var(--teal-600);
+      --on-primary:          #FFFFFF;
+      --primary-container:   var(--teal-200);
       --on-primary-container: var(--neutral-900);
       --secondary-container: var(--blue-200);
       --on-secondary-container: var(--neutral-900);
-      --surface:            var(--neutral-100);
-      --surface-container:  #E8F4F3;
-      --on-surface:         var(--neutral-900);
-      --on-surface-variant: #455A64;
-      --error-container:    #FFCDD2;
-      --on-error-container: #B71C1C;
-      --ok-container:       #C8E6C9;
-      --on-ok-container:    #1B5E20;
+      --surface:             var(--neutral-100);
+      --surface-container:   #E8F4F3;
+      --on-surface:          var(--neutral-900);
+      --on-surface-variant:  #455A64;
+      --card-header-bg:      var(--neutral-900);
+      --error-container:     #FFCDD2;
+      --on-error-container:  #B71C1C;
+      --ok-container:        #C8E6C9;
+      --on-ok-container:     #1B5E20;
+      --divider:             rgba(0,0,0,.07);
       --md-elevation-1: 0 1px 2px rgba(0,0,0,.14), 0 1px 3px rgba(0,0,0,.10);
       --md-elevation-2: 0 2px 4px rgba(0,0,0,.14), 0 3px 8px rgba(0,0,0,.10);
     }
+
+    /* Dark Mode – nur wenn System-Darkmode aktiv */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:                  var(--neutral-800);
+        --surface:             #1E2A38;
+        --surface-container:   #243040;
+        --on-surface:          #E8F0F0;
+        --on-surface-variant:  #90A4AE;
+        --card-header-bg:      var(--neutral-900);
+        --secondary-container: #1E3A5F;
+        --on-secondary-container: #90CAF9;
+        --error-container:     #4E1111;
+        --on-error-container:  #FFCDD2;
+        --ok-container:        #1B3A1F;
+        --on-ok-container:     #A5D6A7;
+        --divider:             rgba(255,255,255,.08);
+        --md-elevation-2: 0 2px 8px rgba(0,0,0,.5);
+      }
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--neutral-800);
+      background: var(--bg);
       color: var(--on-surface);
       font-family: 'Roboto', sans-serif;
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
       padding: 24px;
+      transition: background .2s;
     }
     .card {
       background: var(--surface-container);
@@ -52,9 +74,8 @@
       box-shadow: var(--md-elevation-2);
       overflow: hidden;
     }
-    /* Header */
     .card-header {
-      background: var(--neutral-900);
+      background: var(--card-header-bg);
       padding: 28px 24px 20px;
       display: flex; align-items: center; gap: 16px;
     }
@@ -68,31 +89,26 @@
     .app-icon-wrap .material-icons { color: var(--on-primary); font-size: 32px; }
     .card-header-text h1 { font-size: 1.375rem; font-weight: 700; color: var(--neutral-100); }
     .card-header-text p  { font-size: .875rem; color: var(--teal-200); margin-top: 2px; }
-    /* Body */
     .card-body { padding: 20px 24px 24px; background: var(--surface); }
-    /* Badge */
     .badge {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 6px 14px; border-radius: 999px;
       font-size: .8125rem; font-weight: 500; margin-bottom: 16px;
     }
     .badge .material-icons { font-size: 16px; }
-    .badge.up-to-date      { background: var(--ok-container);    color: var(--on-ok-container); }
-    .badge.update-available{ background: var(--primary-container); color: var(--on-primary-container); }
-    .badge.error-badge     { background: var(--error-container);  color: var(--on-error-container); }
-    /* Version table */
+    .badge.up-to-date       { background: var(--ok-container);       color: var(--on-ok-container); }
+    .badge.update-available { background: var(--primary-container);  color: var(--on-primary-container); }
+    .badge.error-badge      { background: var(--error-container);    color: var(--on-error-container); }
     .version-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
     .version-table td { padding: 8px 0; font-size: .9rem; }
     .version-table td:first-child { color: var(--on-surface-variant); width: 55%; }
-    .version-table tr { border-bottom: 1px solid rgba(0,0,0,.07); }
+    .version-table tr { border-bottom: 1px solid var(--divider); }
     .version-table tr:last-child { border-bottom: none; }
-    /* Changelog */
     .changelog-label { font-size: .75rem; font-weight: 500; letter-spacing: .06em;
       text-transform: uppercase; color: var(--on-surface-variant); margin-bottom: 6px; }
     .changelog { background: var(--surface-container); border-radius: 12px;
       padding: 12px 14px; font-size: .875rem; line-height: 1.55;
-      margin-bottom: 20px; border: 1px solid rgba(0,0,0,.07); }
-    /* Buttons */
+      margin-bottom: 20px; border: 1px solid var(--divider); color: var(--on-surface); }
     .btn-row { display: flex; flex-direction: column; gap: 10px; }
     .btn { display: flex; align-items: center; justify-content: center; gap: 8px;
       width: 100%; padding: 14px 24px; border-radius: 100px; border: none;
@@ -103,7 +119,6 @@
     .btn-filled { background: var(--primary); color: var(--on-primary); box-shadow: var(--md-elevation-1); }
     .btn-tonal  { background: var(--secondary-container); color: var(--on-secondary-container); }
     #downloadBtn { display: none; }
-    /* Loading */
     .loading { display: flex; flex-direction: column; align-items: center; gap: 16px;
       padding: 32px 0; color: var(--on-surface-variant); }
     .spinner { width: 36px; height: 36px;
@@ -111,18 +126,17 @@
       border-top-color: var(--primary);
       border-radius: 50%; animation: spin .8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    /* Nicht-Android */
     .not-android-body { padding: 24px; background: var(--surface); }
     .not-android-icon { width: 64px; height: 64px; border-radius: 20px;
       background: var(--error-container);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 16px; }
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
     .not-android-icon .material-icons { font-size: 36px; color: var(--on-error-container); }
-    .not-android-title { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 8px; color: var(--on-surface); }
-    .not-android-text  { font-size: .9rem; color: var(--on-surface-variant); text-align: center; line-height: 1.55; }
-    /* Download-Hinweis */
-    .install-hint { font-size: .8rem; color: var(--on-surface-variant); text-align: center;
-      margin-top: 6px; line-height: 1.4; }
+    .not-android-title { font-size: 1.25rem; font-weight: 700; text-align: center;
+      margin-bottom: 8px; color: var(--on-surface); }
+    .not-android-text { font-size: .9rem; color: var(--on-surface-variant);
+      text-align: center; line-height: 1.55; }
+    .install-hint { font-size: .8rem; color: var(--on-surface-variant);
+      text-align: center; margin-top: 6px; line-height: 1.4; }
   </style>
 </head>
 <body>
@@ -156,7 +170,7 @@
         <p class="install-hint" id="installHint" style="display:none">
           Nach dem Download: Datei öffnen → Installieren tippen
         </p>
-        <button id="closeBtn" class="btn btn-tonal" onclick="openApp()">
+        <button id="closeBtn" class="btn btn-tonal">
           <span class="material-icons">open_in_new</span>App öffnen
         </button>
       </div>
@@ -167,7 +181,7 @@
         <span id="errorMsg"></span>
       </span>
       <div class="btn-row" style="margin-top:12px">
-        <button class="btn btn-tonal" onclick="openApp()">
+        <button id="closeBtn2" class="btn btn-tonal">
           <span class="material-icons">open_in_new</span>App öffnen
         </button>
       </div>
@@ -177,7 +191,7 @@
 
 <script>
 (function () {
-  // ── Android-Check ──────────────────────────────────────────
+  // ── Android-Check ─────────────────────────────────────────────
   const isAndroid = /android/i.test(navigator.userAgent);
   if (!isAndroid) {
     document.getElementById('mainBody').innerHTML = `
@@ -190,7 +204,7 @@
     return;
   }
 
-  // ── URL-Parameter ─────────────────────────────────────────────
+  // ── URL-Parameter ────────────────────────────────────────────
   const params = new URLSearchParams(location.search);
   let appKey = null;
   for (const [k, v] of params.entries()) { if (v === '' || v === 'true') { appKey = k; break; } }
@@ -198,29 +212,59 @@
   const installedVersion = params.get('v') ?? '0.0.0';
   const appName = appKey.charAt(0).toUpperCase() + appKey.slice(1);
 
-  // ── App-Logo laden ──────────────────────────────────────────
-  const logoUrl = '/apps/' + appName + '/logo.png';
+  // ── Logo ─────────────────────────────────────────────────
   const img = new Image();
   img.onload = () => {
     const wrap = document.getElementById('iconWrap');
     wrap.innerHTML = '';
-    wrap.appendChild(img);
     img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:16px;';
+    wrap.appendChild(img);
   };
-  img.src = logoUrl;
-
+  img.src = '/apps/' + appName + '/logo.png';
   document.getElementById('appName').textContent = appName;
 
-  // ── App per Intent öffnen ───────────────────────────────────
-  const intentUrls = {
-    hashi: 'intent://open#Intent;scheme=de.koblin12.hashi;package=de.koblin12.hashi;end'
+  // ── App öffnen – mehrere Strategien ───────────────────────────
+  // Strategie 1: Custom Scheme (funktioniert wenn App einen IntentFilter hat)
+  // Strategie 2: intent://-URL (Chrome on Android)
+  // Strategie 3: Fallback – einfach Seite schließen
+  const schemes = {
+    hashi: 'de.koblin12.hashi'
   };
-  window.openApp = function () {
-    const url = intentUrls[appKey.toLowerCase()];
-    if (url) location.href = url; else window.close();
+  const customSchemes = {
+    hashi: 'hashi://open'
   };
 
-  // ── Versionsvergleich ─────────────────────────────────────
+  function openApp() {
+    const pkg    = schemes[appKey.toLowerCase()];
+    const custom = customSchemes[appKey.toLowerCase()];
+    if (!pkg) { window.close(); return; }
+
+    // Versuche zuerst Custom-Scheme
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    let opened = false;
+    const timer = setTimeout(() => {
+      // Fallback: intent://-URL
+      if (!opened) {
+        location.href = 'intent://open#Intent;scheme=' + pkg
+          + ';package=' + pkg
+          + ';S.browser_fallback_url=' + encodeURIComponent(location.href)
+          + ';end';
+      }
+    }, 600);
+
+    window.addEventListener('blur', () => { opened = true; clearTimeout(timer); }, { once: true });
+
+    try { iframe.contentWindow.location.href = custom; } catch(e) {}
+  }
+
+  // Buttons verdrahten
+  document.getElementById('closeBtn')  && document.getElementById('closeBtn').addEventListener('click',  openApp);
+  document.getElementById('closeBtn2') && document.getElementById('closeBtn2').addEventListener('click', openApp);
+
+  // ── Versionsvergleich ──────────────────────────────────────
   function compareVersions(a, b) {
     const pa = String(a).split('.').map(Number);
     const pb = String(b).split('.').map(Number);
@@ -232,10 +276,8 @@
     return 0;
   }
 
-  // ── Auto-Install: APK herunterladen + sofort öffnen ──────────────
+  // ── Download / Install ────────────────────────────────────
   function startInstall(apkUrl, fileName) {
-    // Versuche APK per Blob + createObjectURL zu öffnen damit Android den
-    // Package-Installer direkt startet (funktioniert in Chrome/WebView)
     fetch(apkUrl)
       .then(r => r.blob())
       .then(blob => {
@@ -243,45 +285,36 @@
           new Blob([blob], { type: 'application/vnd.android.package-archive' })
         );
         const a = document.createElement('a');
-        a.href     = blobUrl;
-        a.download = fileName;
-        a.click();
-        // Hinweis einblenden (Fallback falls Android nicht auto-installed)
+        a.href = blobUrl; a.download = fileName; a.click();
         document.getElementById('installHint').style.display = 'block';
       })
       .catch(() => {
-        // Fallback: normaler Download-Link
         const a = document.createElement('a');
         a.href = apkUrl; a.download = fileName; a.click();
         document.getElementById('installHint').style.display = 'block';
       });
   }
 
-  // ── Manifest laden ───────────────────────────────────────
+  // ── Manifest ───────────────────────────────────────────
   fetch('/apps/' + appName + '/versions.json')
     .then(r => { if (!r.ok) throw new Error('Manifest nicht gefunden'); return r.json(); })
     .then(data => {
       const latest = String(data.latest);
       const meta   = data.versions.find(v => String(v.version) === latest) ?? data.versions[0];
       const newer  = compareVersions(latest, installedVersion) > 0;
-
       document.getElementById('loading').style.display = 'none';
       document.getElementById('content').style.display = 'block';
       document.getElementById('installedVer').textContent = 'v' + installedVersion;
       document.getElementById('latestVer').textContent    = 'v' + latest;
       document.getElementById('changelog').textContent    = meta.changelog ?? '–';
-
       const badge = document.getElementById('badge');
       if (newer) {
         badge.innerHTML = '<span class="material-icons">system_update</span> Update verfügbar';
         badge.className = 'badge update-available';
-        const dl       = document.getElementById('downloadBtn');
-        const fileName = appName + '-v' + latest + '.apk';
+        const dl = document.getElementById('downloadBtn');
+        const fn = appName + '-v' + latest + '.apk';
         dl.style.display = 'flex';
-        dl.addEventListener('click', e => {
-          e.preventDefault();
-          startInstall(meta.apk, fileName);
-        });
+        dl.addEventListener('click', e => { e.preventDefault(); startInstall(meta.apk, fn); });
       } else {
         badge.innerHTML = '<span class="material-icons">check_circle</span> Aktuell';
         badge.className = 'badge up-to-date';
