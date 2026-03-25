@@ -44,7 +44,7 @@
       display:flex;align-items:center;gap:16px}
     .icon-wrap{width:56px;height:56px;border-radius:16px;background:var(--primary);
       display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
-    .icon-wrap img{width:100%;height:100%;object-fit:cover}
+    .icon-wrap img{width:100%;height:100%;object-fit:cover;display:block}
     .icon-wrap .material-icons{color:var(--on-primary);font-size:32px}
     .hdr-text h1{font-size:1.375rem;font-weight:700;color:var(--neutral-100)}
     .hdr-text p{font-size:.875rem;color:var(--teal-200);margin-top:2px}
@@ -52,9 +52,9 @@
     .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;
       border-radius:999px;font-size:.8125rem;font-weight:500;margin-bottom:16px}
     .badge .material-icons{font-size:16px}
-    .badge.ok  {background:var(--ok-container);   color:var(--on-ok-container)}
-    .badge.upd {background:var(--primary-container);color:var(--on-primary-container)}
-    .badge.err {background:var(--error-container); color:var(--on-error-container)}
+    .badge.ok {background:var(--ok-container);  color:var(--on-ok-container)}
+    .badge.upd{background:var(--primary-container);color:var(--on-primary-container)}
+    .badge.err{background:var(--error-container);color:var(--on-error-container)}
     .vtable{width:100%;border-collapse:collapse;margin-bottom:16px}
     .vtable td{padding:8px 0;font-size:.9rem}
     .vtable td:first-child{color:var(--on-surface-variant);width:55%}
@@ -73,27 +73,18 @@
     .btn .material-icons{font-size:20px}
     .btn:hover{opacity:.85}
     .btn-filled{background:var(--primary);color:var(--on-primary);box-shadow:var(--md-el1)}
-    .btn-tonal {background:var(--secondary-container);color:var(--on-secondary-container)}
     #dlBtn{display:none}
-    /* Installationsanleitung */
     .install-steps{display:none;background:var(--warn-container);border-radius:16px;
       padding:14px 16px;margin-top:4px}
     .install-steps p{font-size:.8125rem;font-weight:600;color:var(--on-warn-container);
       margin-bottom:8px;display:flex;align-items:center;gap:6px}
     .install-steps ol{padding-left:18px;font-size:.8125rem;
       color:var(--on-warn-container);line-height:1.7}
-    /* App öffnen – Chrome-Hinweis (Firefox hat kein Intent-Support) */
-    .open-hint{background:var(--surface-container);border-radius:12px;
-      padding:12px 14px;font-size:.8125rem;color:var(--on-surface-variant);
-      line-height:1.5;border:1px solid var(--divider);display:flex;gap:10px;align-items:flex-start}
-    .open-hint .material-icons{font-size:18px;flex-shrink:0;margin-top:1px;color:var(--primary)}
-    /* Loading */
     .loading{display:flex;flex-direction:column;align-items:center;gap:16px;
       padding:32px 0;color:var(--on-surface-variant)}
     .spinner{width:36px;height:36px;border:3px solid var(--primary-container);
       border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
-    /* Nicht-Android */
     .na-body{padding:24px;background:var(--surface)}
     .na-icon{width:64px;height:64px;border-radius:20px;background:var(--error-container);
       display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
@@ -106,7 +97,7 @@
 <div class="card">
   <div class="card-header">
     <div class="icon-wrap" id="iconWrap">
-      <span class="material-icons">apps</span>
+      <span class="material-icons" id="iconFallback">apps</span>
     </div>
     <div class="hdr-text">
       <h1 id="appName">Update</h1>
@@ -115,7 +106,6 @@
   </div>
   <div class="card-body" id="mainBody">
     <div class="loading" id="loading"><div class="spinner"></div><span>Suche nach Updates…</span></div>
-
     <div id="content" style="display:none">
       <span class="badge" id="badge"></span>
       <table class="vtable">
@@ -128,7 +118,6 @@
         <button id="dlBtn" class="btn btn-filled">
           <span class="material-icons">download</span>Update installieren
         </button>
-        <!-- Installationsanleitung – erscheint nach Klick -->
         <div class="install-steps" id="installSteps">
           <p><span class="material-icons">info</span>So installierst du das Update:</p>
           <ol>
@@ -138,17 +127,8 @@
             <li>Auf „Installieren“ tippen</li>
           </ol>
         </div>
-        <!-- App öffnen -->
-        <div class="open-hint" id="openHint" style="display:none">
-          <span class="material-icons">open_in_new</span>
-          <span>Um die App zu öffnen, wechsle zurück zur <strong>Hashi-App</strong> – oder öffne sie über deinen App-Drawer.</span>
-        </div>
-        <button id="openBtn" class="btn btn-tonal">
-          <span class="material-icons">open_in_new</span>App öffnen
-        </button>
       </div>
     </div>
-
     <div id="errorBox" style="display:none">
       <span class="badge err">
         <span class="material-icons">error_outline</span><span id="errMsg"></span>
@@ -159,7 +139,6 @@
 
 <script>
 (function(){
-  // Android-Check
   if(!/android/i.test(navigator.userAgent)){
     document.getElementById('mainBody').innerHTML=`
       <div class="na-body">
@@ -170,7 +149,6 @@
     return;
   }
 
-  // Parameter
   const params=new URLSearchParams(location.search);
   let appKey=null;
   for(const[k,v]of params.entries()){if(v===''||v==='true'){appKey=k;break;}}
@@ -179,17 +157,17 @@
   const appName=appKey.charAt(0).toUpperCase()+appKey.slice(1);
   document.getElementById('appName').textContent=appName;
 
-  // Logo – liegt unter /apps/Hashi/logo.png
-  const logoImg=new Image();
+  // Logo: direkt mit hartem Pfad /apps/Hashi/logo.png laden
+  const logoImg=document.createElement('img');
+  logoImg.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:16px;display:block;';
   logoImg.onload=()=>{
     const w=document.getElementById('iconWrap');
     w.innerHTML='';
-    logoImg.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:16px;';
     w.appendChild(logoImg);
   };
-  logoImg.src='/apps/'+appName+'/logo.png';
+  // Cache-Buster damit der Browser kein leeres Bild cached
+  logoImg.src='/apps/'+appName+'/logo.png?v=1';
 
-  // Versionsvergleich
   function cmpVer(a,b){
     const pa=String(a).split('.').map(Number);
     const pb=String(b).split('.').map(Number);
@@ -200,38 +178,17 @@
     return 0;
   }
 
-  // Download + Anleitung anzeigen
   function startInstall(apkUrl,fileName){
-    // Direkt als Link aufrufen (Firefox-kompatibel, kein Blob-CORS-Problem bei GitHub)
     const a=document.createElement('a');
     a.href=apkUrl;
     a.download=fileName;
-    a.target='_blank'; // öffnet Download-Manager, nicht die Seite
+    a.target='_blank';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    // Anleitung einblenden
     document.getElementById('installSteps').style.display='block';
-    // App-öffnen-Hinweis zeigen statt Intent-Button
-    document.getElementById('openBtn').style.display='none';
-    document.getElementById('openHint').style.display='flex';
   }
 
-  // App öffnen: Intent-URL (Chrome), Fallback: Hinweistext
-  document.getElementById('openBtn').addEventListener('click',()=>{
-    const pkg='de.koblin12.hashi';
-    // intent:// URL – funktioniert in Chrome, in Firefox zeigt es den Hinweis
-    const intentUrl='intent://open#Intent;scheme='+pkg+';package='+pkg
-      +';S.browser_fallback_url='+encodeURIComponent(location.href)+';end';
-    location.href=intentUrl;
-    // Nach 1s prüfen ob wir noch auf der Seite sind – dann Hinweis zeigen
-    setTimeout(()=>{
-      document.getElementById('openBtn').style.display='none';
-      document.getElementById('openHint').style.display='flex';
-    },1000);
-  });
-
-  // Manifest laden
   fetch('/apps/'+appName+'/versions.json')
     .then(r=>{if(!r.ok)throw new Error('Manifest nicht gefunden');return r.json();})
     .then(data=>{
