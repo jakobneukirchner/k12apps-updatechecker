@@ -1,5 +1,5 @@
 {
-  "latest": "1.5.1",
+  "latest": "1.5.2",
   "versions": [
     {
       "version": "1.0",
@@ -30,6 +30,11 @@
       "version": "1.5.1",
       "apk": "https://github.com/jakobneukirchner/k12apps-updatechecker/releases/download/hashi-v1.5.1/hashi-release-v1.5.1.apk",
       "changelog": "Sicherheitsabstände beim Spielbrett hinzugefügt"
+    },
+    {
+      "version": "1.5.2",
+      "apk": "https://github.com/jakobneukirchner/k12apps-updatechecker/releases/download/hashi-v1.5.2/hashi-release-v1.5.2.apk",
+      "changelog": "Verbesserte Fehlerlogik"
     }
   ]
 }
